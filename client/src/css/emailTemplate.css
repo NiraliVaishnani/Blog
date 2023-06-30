@@ -1,0 +1,55 @@
+.email-template-list-container {
+    margin: 20px;
+}
+
+.add-template-button {
+    padding: 10px;
+    background-color: teal;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.template-list-heading {
+    margin-top: 20px;
+    font-size: 24px;
+}
+
+.template-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.table-header {
+    background-color: #f0f0f0;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.template-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.add-template-button2 {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: teal;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.fianally {
+    background-color: #D2122E;
+    border: 1px solid #D2122E;
+    color: white;
+    padding: 10px;
+    border-radius: 3px;
+    margin-left: 80px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

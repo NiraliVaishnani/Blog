@@ -1,0 +1,46 @@
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.center_login {
+    border: 2px solid teal;
+    padding: 20px;
+    box-shadow: 1px 0px 10px 2px teal;
+}
+
+.center_login h2 {
+    color: teal;
+    text-align: center;
+}
+
+.center_login label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.center_login input {
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 15px;
+}
+
+.center_login button {
+    background-color: teal;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.center_login button:hover {
+    background-color: darkcyan;
+}
+
+.center_login h5 {
+    text-align: center;
+    margin-top: 10px;
+}

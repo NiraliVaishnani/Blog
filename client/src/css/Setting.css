@@ -1,0 +1,42 @@
+.setting-container {
+    margin: 20px;
+}
+
+.add-template-button {
+    padding: 10px;
+    background-color: teal;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.setting-heading {
+    margin-top: 20px;
+    font-size: 24px;
+}
+
+.setting-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.table-header {
+    background-color: #f0f0f0;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.setting-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.add-template-button2 {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: teal;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
