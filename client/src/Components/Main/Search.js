@@ -12,7 +12,7 @@ const Search = ({ setPosts }) => {
             .then((data) => {
                 console.log("API response:", data);
                 setPosts(data.blogs);
-                console.log("Posts updated:", data.blogs);
+                console.log("Posts updated:", data.blogs)
             })
             .catch((error) => console.log(error));
     };
