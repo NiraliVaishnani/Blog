@@ -502,22 +502,49 @@ const City = sequelize.define('City', {
 //     tableName: 'UserAddress'
 // });
 
-const Address = sequelize.define('Address',
-    {
-        id:
-        {
-            type: Sequelize.INTEGER,
-            primaryKey: true, autoIncrement: true,
-        }, country: Sequelize.STRING,
-        state: Sequelize.STRING,
-        city: Sequelize.STRING,
+// const Address = sequelize.define('Address',
+//     {
+//         id:
+//         {
+//             type: Sequelize.INTEGER,
+//             primaryKey: true, autoIncrement: true,
+//         }, country: Sequelize.STRING,
+//         state: Sequelize.STRING,
+//         city: Sequelize.STRING,
+//     },
+//     {
+//         tableName: 'UserAddress',
+
+
+//     });
+
+
+const Address = sequelize.define('Address', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
     },
-    {
-        tableName: 'UserAddress',
+    country: {
+        type: Sequelize.STRING,
+        field: 'country' // specify the actual column name in the database
+    },
+    state: {
+        type: Sequelize.STRING,
+        field: 'state' // specify the actual column name in the database
+    },
+    city: {
+        type: Sequelize.STRING,
+        field: 'city' // specify the actual column name in the database
+    }
+}, {
+    tableName: 'UserAddress',
+});
 
-
-    });
-
+Address.sequelize.sync()
+    .then(() => {
+        console.log("yes re sync")
+    })
 
 
 Country.hasMany(State, { foreignKey: 'countryId' });
