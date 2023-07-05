@@ -383,7 +383,6 @@ app.delete('/api/setting/:id', async (req, res) => {
 });
 
 
-
 app.get('/api/account/register', async (req, res) => {
     const sql = await Register.findAll();
     res.json(sql);
@@ -456,4 +455,158 @@ app.post("/api/account/profile", verifyToken, (req, res) => {
 })
 
 
+const Country = sequelize.define('Country', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: Sequelize.STRING
+}, {
+    tableName: 'UserCountry'
+}
+);
+
+const State = sequelize.define('State', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: Sequelize.STRING
+}, {
+    tableName: 'UserState'
+});
+
+const City = sequelize.define('City', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: Sequelize.STRING
+}, {
+    tableName: 'UserCity'
+});
+
+// const Address = sequelize.define('City', {
+//     id: {
+//         type: Sequelize.INTEGER,
+//         primaryKey: true,
+//         autoIncrement: true
+//     },
+//     country: Sequelize.STRING,
+//     state: Sequelize.STRING,
+//     city: Sequelize.STRING,
+// }, {
+//     tableName: 'UserAddress'
+// });
+
+const Address = sequelize.define('Address',
+    {
+        id:
+        {
+            type: Sequelize.INTEGER,
+            primaryKey: true, autoIncrement: true,
+        }, country: Sequelize.STRING,
+        state: Sequelize.STRING,
+        city: Sequelize.STRING,
+    },
+    {
+        tableName: 'UserAddress',
+
+
+    });
+
+
+
+Country.hasMany(State, { foreignKey: 'countryId' });
+State.belongsTo(Country, { foreignKey: 'countryId' });
+
+State.hasMany(City, { foreignKey: 'stateId' });
+City.belongsTo(State, { foreignKey: 'stateId' });
+
+Country.sequelize.sync()
+    .then(() => {
+        console.log("yes re sync")
+    })
+// app.get('/', function (req, res) {
+//     res.sendFile(__dirname + '/index.html');
+// });
+app.get('/api/address/countries', async (req, res) => {
+    const countries = await Country.findAll();
+    res.json(countries);
+});
+
+app.get('/api/address/state/:countryId', async (req, res) => {
+    const states = await State.findAll({
+        where: { countryId: req.params.countryId }
+    });
+    res.json(states);
+});
+
+app.get('/api/address/city/:stateId', async (req, res) => {
+    const cities = await City.findAll({
+        where: { stateId: req.params.stateId }
+    });
+    res.json(cities);
+});
+
+// app.get('/api/address', async (req, res) => {
+//     const country = await Country.findAll();
+//     const state = await State.findAll();
+//     const city = await City.findAll();
+//     res.json(country, state, city);
+// });
+
+app.get('/api/address', async (req, res) => {
+    const countries = await Country.findAll();
+    const states = await State.findAll();
+    const cities = await City.findAll();
+
+    const data = {
+        countries,
+        states,
+        cities
+    };
+
+    res.json(data);
+});
+
+// app.post('/api/address', async (req, res) => {
+//     const { country, state, city } = req.body;
+//     try {
+//         const newSetting = await Address.create({ country: countryId, state: stateId, city: selectedCity });
+//         res.json(newSetting);
+//     } catch (error) {
+//         console.error('Error creating Setting:', error);
+//         res.status(500).send('Error creating Setting.');
+//     }
+// });
+
+// API endpoint to handle form submission 
+app.post('/api/address/submit', async (req, res) => {
+    const { country, state, city } = req.body;
+    try {
+        // Create a new address record in the database   
+        const address = await Address.create({ country, state, city });
+        res.json({ message: 'Address stored successfully', address });
+    }
+    catch (error) {
+        console.error('Error submitting address:', error);
+        res.status(500).json({ error: 'Failed to submit address' });
+    }
+});
+
 app.listen(5000)
+
+
+
+
+
+
+
+
+
+
+

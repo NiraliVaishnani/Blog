@@ -109,3 +109,22 @@ h6 {
     border-radius: 3px;
     border: 1px solid #ccc;
 }
+
+
+#header {
+    position: relative;
+    z-index: 1;
+    /* Ensure the header is in front */
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 2;
+    /* Set a higher z-index to make the dropdown appear on top */
+}

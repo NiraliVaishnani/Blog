@@ -12,7 +12,7 @@ const Search = ({ setPosts }) => {
             .then((data) => {
                 console.log("API response:", data);
                 setPosts(data.blogs);
-                console.log("Posts updated:", data.blogs)
+                console.log("Posts updated:", data.blogs);
             })
             .catch((error) => console.log(error));
     };
@@ -38,8 +38,9 @@ const Search = ({ setPosts }) => {
                 className='searchhinput'
             />
 
-            <Link to={`/search/${searchTerm}`}>
-                <button onClick={handleSearch} className='searchbutton'>Search</button> </Link>
+            {/* <Link to={`/search/${searchTerm}`}>
+                <button onClick={handleSearch} className='searchbutton'>Search</button> </Link> */}
+            <button onClick={handleSearch} className='searchbutton'>Search</button>
         </div>
     );
 };

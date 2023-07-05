@@ -16,6 +16,7 @@ import BlogForm from './Components/Main/Blog/Addblog';
 import EmailTemplateForm from './Components/Main/email-template/email-template-save';
 import SettingForm from './Components/Main/Setting/setting-save';
 import Search from './Components/Main/Search';
+import User from './Components/Main/User';
 function App() {
   return (
     <BrowserRouter>
@@ -40,6 +41,7 @@ function App() {
           <Route path="/technology" element={<Technology />} />
           <Route path="/cinema" element={<Cinema />} />
           <Route path="/search/:title" element={<Search />} />
+          <Route path='/user' element={<User />} />
         </Route>
       </Routes>
     </BrowserRouter>
