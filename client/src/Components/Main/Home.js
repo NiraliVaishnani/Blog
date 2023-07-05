@@ -14,7 +14,7 @@ const Home = () => {
             const response = await axios.get(`http://localhost:5000/api/blog?page=${page}`);
             const { blogs } = response.data;
             setPosts(blogs);
-
+            console.log(response);
         } catch (error) {
             console.log(error);
         }
