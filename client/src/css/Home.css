@@ -139,3 +139,25 @@
     background-color: teal;
     color: #fff;
 }
+
+.searchbutton {
+
+    width: max-content;
+    padding: 9px 20px;
+    margin-top: 4px;
+    border: none;
+    cursor: pointer;
+    background-color: teal;
+    border: 1px solid teal;
+    color: white;
+
+}
+
+.searchinput {
+    margin-left: 350px;
+    width: 30%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}

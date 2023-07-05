@@ -4,6 +4,7 @@ import Header from '../../Components/Main/Header';
 import Footer from '../../Components/Main/Footer';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../../Components/Main/Sidebar';
+import Rightsidebar from '../../Components/Main/Rightsidebar';
 
 const MainContent = () => {
     return (

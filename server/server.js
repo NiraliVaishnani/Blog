@@ -132,13 +132,21 @@ const upload = multer({ storage: storage });
 //     });
 //     res.json(sql);
 // })
+const { Op } = require('sequelize');
 
 app.get('/api/blog', async (req, res) => {
     const page = parseInt(req.query.page) || 1; // Get the requested page from the query parameter
     const perPage = 3; // Number of blogs per page
     const offset = (page - 1) * perPage; // Calculate the offset
-
+    const searchTerm = req.query.search || '';
     try {
+
+        const searchCondition = {
+            [Op.or]: [
+                { title: { [Op.like]: `%${searchTerm}%` } },
+                { description: { [Op.like]: `%${searchTerm}%` } }
+            ]
+        };
         // Retrieve blogs from the database with pagination
         const blogs = await Blog.findAll({
             attributes: [
@@ -148,12 +156,13 @@ app.get('/api/blog', async (req, res) => {
                 'description',
                 'image'
             ],
+            where: searchCondition,
             limit: perPage,
             offset: offset
         });
 
         // Count the total number of blogs
-        const totalCount = await Blog.count();
+        const totalCount = await Blog.count({ where: searchCondition });
 
         res.json({
             blogs,
@@ -165,6 +174,40 @@ app.get('/api/blog', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
+// app.get('/api/blog/search', async (req, res) => {
+
+// });
+
+app.get('/api/blog/search', async (req, res) => {
+    const { title } = req.query; // Get the title query parameter
+
+    try {
+        // Perform search by title
+        const blogs = await Blog.findAll({
+            attributes: [
+                'id',
+                'title',
+                [sequelize.fn('DATE_FORMAT', sequelize.col('createdAt'), '%d-%m-%Y'), 'createdAt'],
+                'description',
+                'image'
+            ],
+            where: {
+                title: {
+                    [Sequelize.Op.like]: `%${title}%`
+                }
+            }
+        });
+
+        res.json({ blogs });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
 app.post('/api/blog', upload.single('image'), async (req, res) => {
     const { title, description } = req.body;
@@ -201,6 +244,7 @@ app.get('/api/blog/:id', async (req, res) => {
     const sql = await Blog.findByPk(req.params.id);
     res.json(sql);
 })
+
 
 app.post('/api/blog/:id', upload.single('image'), async (req, res) => {
 
@@ -288,6 +332,8 @@ app.get('/api/setting/:id', async (req, res) => {
             }
         })
 });
+
+
 app.post('/api/setting', async (req, res) => {
     const { Key, Value } = req.body;
     try {

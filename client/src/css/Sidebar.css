@@ -2,7 +2,7 @@
     width: 1;
     height: 100%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
 }
 
 .xyz {
@@ -10,8 +10,8 @@
 }
 
 .sidebar2 {
-    background-color: #E7F6FC;
-    grid-column: span 2;
+    background-color: #EDEADE;
+    grid-column: span 3;
     display: none;
 }
 
