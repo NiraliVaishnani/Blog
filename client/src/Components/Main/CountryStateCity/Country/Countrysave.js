@@ -34,6 +34,7 @@ const Countrysave = () => {
             });
 
             const data = await response.json();
+
             console.log(data);
             navigate(`/country`);
         } catch (error) {

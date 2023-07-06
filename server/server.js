@@ -489,7 +489,19 @@ const City = sequelize.define('City', {
     tableName: 'UserCity'
 });
 
-
+const UserProfile = sequelize.define('UserProfile', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    firstname: Sequelize.STRING,
+    lastname: Sequelize.STRING,
+    gender: Sequelize.STRING,
+    email: Sequelize.STRING,
+}, {
+    tableName: 'UserProfile',
+})
 
 const Address = sequelize.define('Address', {
     id: {
@@ -764,6 +776,59 @@ app.delete('/api/city/:id', async (req, res) => {
     }
 });
 
+app.get('/api/userprofile', async (req, res) => {
+    try {
+        const profiles = await UserProfile.findAll();
+        res.json(profiles);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.get('/api/userprofile/:id', async (req, res) => {
+    const profiles = await UserProfile.findAll({
+        where: { id: req.params.id }
+    });
+    res.json(profiles);
+});
+
+
+app.post('/api/userprofile', async (req, res) => {
+    const { firstname, lastname, gender, email } = req.body;
+    try {
+        const newprofile = await UserProfile.create({ firstname, lastname, gender, email });
+        res.status(201).json(newprofile);
+    } catch (error) {
+        console.error('Error creating state:', error);
+        res.status(500).send('Error creating state.');
+    }
+});
+
+// Update a profile
+app.post('/api/userprofile/:id', async (req, res) => {
+    const { id } = req.params;
+    const { firstname, lastname, gender, email } = req.body;
+    try {
+        await UserProfile.update({ firstname, lastname, gender, email }, { where: { id } });
+        const updatedProfile = await UserProfile.findByPk(id);
+        res.json(updatedProfile);
+    } catch (error) {
+        console.error('Error updating country:', error);
+        res.status(500).send('Error updating country.');
+    }
+});
+
+// Delete a profile
+app.delete('/api/userprofile/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        await UserProfile.destroy({ where: { id } });
+        res.json('Country deleted successfully.');
+    } catch (error) {
+        console.error('Error deleting country:', error);
+        res.status(500).send('Error deleting country.');
+    }
+});
 
 app.listen(5000)
 

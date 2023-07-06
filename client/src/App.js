@@ -16,13 +16,15 @@ import BlogForm from './Components/Main/Blog/Addblog';
 import EmailTemplateForm from './Components/Main/email-template/email-template-save';
 import SettingForm from './Components/Main/Setting/setting-save';
 import Search from './Components/Main/Search';
-import User from './Components/Main/User';
+
 import Country from './Components/Main/CountryStateCity/Country/Country';
 import State from './Components/Main/CountryStateCity/State/State';
 import City from './Components/Main/CountryStateCity/City/City';
 import Countrysave from './Components/Main/CountryStateCity/Country/Countrysave';
 import Statesave from './Components/Main/CountryStateCity/State/Statesave';
 import Citysave from './Components/Main/CountryStateCity/City/Citysave';
+import User from './Components/Main/User/User';
+import UserSave from './Components/Main/User/Usersave';
 function App() {
   return (
     <BrowserRouter>
@@ -57,6 +59,8 @@ function App() {
           <Route path='/state/:id/edit' element={<Statesave />} />
           <Route path='/city/add' element={<Citysave />} />
           <Route path='/city/:id/edit' element={<Citysave />} />
+          <Route path='/user/add' element={<UserSave />} />
+          <Route path='/user/:id/edit' element={<UserSave />} />
         </Route>
       </Routes>
     </BrowserRouter>

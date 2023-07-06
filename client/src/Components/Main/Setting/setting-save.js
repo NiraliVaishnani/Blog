@@ -10,9 +10,14 @@ const SettingForm = () => {
     useEffect(() => {
         if (id) {
             fetch(`http://localhost:5000/api/setting/${id}`)
-                .then((response) => response.json())
+                // .then((response) => response.json())
+                .then(response => {
+                    console.log(response);
+                    return response.json();
+                })
                 .then((data) => {
                     setKey(data.Key);
+                    console.log(data.key)
                     setValue(data.Value);
                 })
                 .catch((error) => console.log(error));
