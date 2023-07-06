@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Userdelete from './Userdelete';
 
 const User = () => {
     const [profiles, setProfiles] = useState([]);
@@ -15,23 +16,6 @@ const User = () => {
                 setProfiles(data);
             })
             .catch(error => console.log(error));
-    };
-
-    const handleDelete = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:5000/api/userprofile/${id}`, {
-                method: 'DELETE'
-            });
-
-            if (response.ok) {
-                console.log('User profile deleted successfully.');
-                fetchProfiles();
-            } else {
-                throw new Error('Error deleting user profile.');
-            }
-        } catch (error) {
-            console.error(error);
-        }
     };
 
     return (
@@ -66,14 +50,7 @@ const User = () => {
                                         <button className="editButton">Edit</button>
                                     </Link>
                                 </td>
-                                <td>
-                                    <button
-                                        className="deleteButton"
-                                        onClick={() => handleDelete(profile.id)}
-                                    >
-                                        Delete
-                                    </button>
-                                </td>
+                                <td><Userdelete id={profile.id} fetchProfiles={fetchProfiles} /></td>
                             </tr>
                         ))}
                     </tbody>
