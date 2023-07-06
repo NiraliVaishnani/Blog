@@ -17,6 +17,12 @@ import EmailTemplateForm from './Components/Main/email-template/email-template-s
 import SettingForm from './Components/Main/Setting/setting-save';
 import Search from './Components/Main/Search';
 import User from './Components/Main/User';
+import Country from './Components/Main/CountryStateCity/Country/Country';
+import State from './Components/Main/CountryStateCity/State/State';
+import City from './Components/Main/CountryStateCity/City/City';
+import Countrysave from './Components/Main/CountryStateCity/Country/Countrysave';
+import Statesave from './Components/Main/CountryStateCity/State/Statesave';
+import Citysave from './Components/Main/CountryStateCity/City/Citysave';
 function App() {
   return (
     <BrowserRouter>
@@ -42,6 +48,15 @@ function App() {
           <Route path="/cinema" element={<Cinema />} />
           <Route path="/search/:title" element={<Search />} />
           <Route path='/user' element={<User />} />
+          <Route path='/country' element={<Country />} />
+          <Route path='/state' element={<State />} />
+          <Route path='/city' element={<City />} />
+          <Route path='/country/add' element={<Countrysave />} />
+          <Route path='/country/:id/edit' element={<Countrysave />} />
+          <Route path='/state/add' element={<Statesave />} />
+          <Route path='/state/:id/edit' element={<Statesave />} />
+          <Route path='/city/add' element={<Citysave />} />
+          <Route path='/city/:id/edit' element={<Citysave />} />
         </Route>
       </Routes>
     </BrowserRouter>

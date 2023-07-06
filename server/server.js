@@ -489,34 +489,6 @@ const City = sequelize.define('City', {
     tableName: 'UserCity'
 });
 
-// const Address = sequelize.define('City', {
-//     id: {
-//         type: Sequelize.INTEGER,
-//         primaryKey: true,
-//         autoIncrement: true
-//     },
-//     country: Sequelize.STRING,
-//     state: Sequelize.STRING,
-//     city: Sequelize.STRING,
-// }, {
-//     tableName: 'UserAddress'
-// });
-
-// const Address = sequelize.define('Address',
-//     {
-//         id:
-//         {
-//             type: Sequelize.INTEGER,
-//             primaryKey: true, autoIncrement: true,
-//         }, country: Sequelize.STRING,
-//         state: Sequelize.STRING,
-//         city: Sequelize.STRING,
-//     },
-//     {
-//         tableName: 'UserAddress',
-
-
-//     });
 
 
 const Address = sequelize.define('Address', {
@@ -527,15 +499,15 @@ const Address = sequelize.define('Address', {
     },
     country: {
         type: Sequelize.STRING,
-        field: 'country' // specify the actual column name in the database
+        field: 'country'
     },
     state: {
         type: Sequelize.STRING,
-        field: 'state' // specify the actual column name in the database
+        field: 'state'
     },
     city: {
         type: Sequelize.STRING,
-        field: 'city' // specify the actual column name in the database
+        field: 'city'
     }
 }, {
     tableName: 'UserAddress',
@@ -557,9 +529,7 @@ Country.sequelize.sync()
     .then(() => {
         console.log("yes re sync")
     })
-// app.get('/', function (req, res) {
-//     res.sendFile(__dirname + '/index.html');
-// });
+
 app.get('/api/address/countries', async (req, res) => {
     const countries = await Country.findAll();
     res.json(countries);
@@ -579,26 +549,6 @@ app.get('/api/address/city/:stateId', async (req, res) => {
     res.json(cities);
 });
 
-// app.get('/api/address', async (req, res) => {
-//     const country = await Country.findAll();
-//     const state = await State.findAll();
-//     const city = await City.findAll();
-//     res.json(country, state, city);
-// });
-
-app.get('/api/address', async (req, res) => {
-    const countries = await Country.findAll();
-    const states = await State.findAll();
-    const cities = await City.findAll();
-
-    const data = {
-        countries,
-        states,
-        cities
-    };
-
-    res.json(data);
-});
 
 // app.post('/api/address', async (req, res) => {
 //     const { country, state, city } = req.body;
@@ -624,6 +574,196 @@ app.post('/api/address/submit', async (req, res) => {
         res.status(500).json({ error: 'Failed to submit address' });
     }
 });
+
+app.get('/api/address/submit', async (req, res) => {
+    const address = await Address.findAll();
+    res.json(address);
+});
+
+
+
+// Get all countries
+app.get('/api/country', async (req, res) => {
+    try {
+        const countries = await Country.findAll();
+        res.json(countries);
+    } catch (error) {
+        console.error('Error retrieving countries:', error);
+        res.status(500).send('Error retrieving countries.');
+    }
+});
+
+// Get a specific country by ID
+app.get('/api/country/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const country = await Country.findByPk(id);
+        if (!country) {
+            res.json('Country not found');
+        } else {
+            res.json(country);
+        }
+    } catch (error) {
+        console.error('Error retrieving country:', error);
+        res.status(500).send('Error retrieving country.');
+    }
+});
+
+// Create a new country
+app.post('/api/country', async (req, res) => {
+    const { name } = req.body;
+    try {
+        const newCountry = await Country.create({ name });
+        res.json(newCountry);
+    } catch (error) {
+        console.error('Error creating country:', error);
+        res.status(500).send('Error creating country.');
+    }
+});
+
+// Update a country
+app.post('/api/country/:id', async (req, res) => {
+    const { id } = req.params;
+    const { name } = req.body;
+    try {
+        await Country.update({ name }, { where: { id } });
+        const updatedCountry = await Country.findByPk(id);
+        res.json(updatedCountry);
+    } catch (error) {
+        console.error('Error updating country:', error);
+        res.status(500).send('Error updating country.');
+    }
+});
+
+// Delete a country
+app.delete('/api/country/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        await Country.destroy({ where: { id } });
+        res.json('Country deleted successfully.');
+    } catch (error) {
+        console.error('Error deleting country:', error);
+        res.status(500).send('Error deleting country.');
+    }
+});
+
+
+app.get('/api/state', async (req, res) => {
+    const states = await State.findAll();
+    res.json(states);
+});
+
+app.get('/api/state/:id', async (req, res) => {
+    const state = await State.findByPk(req.params.id);
+    if (!state) {
+        res.status(404).json({ error: 'State not found' });
+    } else {
+        res.json(state);
+    }
+});
+
+app.post('/api/state', async (req, res) => {
+    const { name } = req.body;
+    try {
+        const newState = await State.create({ name });
+        res.status(201).json(newState);
+    } catch (error) {
+        console.error('Error creating state:', error);
+        res.status(500).send('Error creating state.');
+    }
+});
+
+app.post('/api/state/:id', async (req, res) => {
+    const { name } = req.body;
+    const id = req.params.id;
+    try {
+        const state = await State.findByPk(id);
+        if (!state) {
+            res.status(404).json({ error: 'State not found' });
+        } else {
+            await state.update({ name });
+            res.json(state);
+        }
+    } catch (error) {
+        console.error('Error updating state:', error);
+        res.status(500).send('Error updating state.');
+    }
+});
+
+app.delete('/api/state/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const state = await State.findByPk(id);
+        if (!state) {
+            res.status(404).json({ error: 'State not found' });
+        } else {
+            await state.destroy();
+            res.json('State deleted successfully');
+        }
+    } catch (error) {
+        console.error('Error deleting state:', error);
+        res.status(500).send('Error deleting state.');
+    }
+});
+
+app.get('/api/city', async (req, res) => {
+    const cities = await City.findAll();
+    res.json(cities);
+});
+
+app.get('/api/city/:id', async (req, res) => {
+    const city = await City.findByPk(req.params.id);
+    if (!city) {
+        res.status(404).json({ error: 'City not found' });
+    } else {
+        res.json(city);
+    }
+});
+
+app.post('/api/city', async (req, res) => {
+    const { name } = req.body;
+    try {
+        const newCity = await City.create({ name });
+        res.status(201).json(newCity);
+    } catch (error) {
+        console.error('Error creating city:', error);
+        res.status(500).send('Error creating city.');
+    }
+});
+
+app.post('/api/city/:id', async (req, res) => {
+    const { name } = req.body;
+    const id = req.params.id;
+    try {
+        const city = await City.findByPk(id);
+        if (!city) {
+            res.status(404).json({ error: 'City not found' });
+        } else {
+            await city.update({ name });
+            res.json(city);
+        }
+    } catch (error) {
+        console.error('Error updating city:', error);
+        res.status(500).send('Error updating city.');
+    }
+});
+
+app.delete('/api/city/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const city = await City.findByPk(id);
+        if (!city) {
+            res.status(404).json({ error: 'City not found' });
+        } else {
+            await city.destroy();
+            res.json('City deleted successfully');
+        }
+    } catch (error) {
+        console.error('Error deleting city:', error);
+        res.status(500).send('Error deleting city.');
+    }
+});
+
 
 app.listen(5000)
 

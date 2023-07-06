@@ -38,9 +38,9 @@ const Search = ({ setPosts }) => {
                 className='searchhinput'
             />
 
-            {/* <Link to={`/search/${searchTerm}`}>
-                <button onClick={handleSearch} className='searchbutton'>Search</button> </Link> */}
-            <button onClick={handleSearch} className='searchbutton'>Search</button>
+            <Link to={`/search/${searchTerm}`}>
+                <button onClick={handleSearch} className='searchbutton'>Search</button> </Link>
+            {/* <button onClick={handleSearch} className='searchbutton'>Search</button> */}
         </div>
     );
 };
