@@ -52,7 +52,7 @@ const UserSave = () => {
                 throw new Error('Error saving user profile.');
             }
         } catch (error) {
-            console.error(error);
+            console.error(error)
         }
     };
 
