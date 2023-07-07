@@ -58,6 +58,11 @@ const Header = () => {
                                         <b>USER</b>
                                     </h6>
                                 </Link>
+                                <Link className="link" to="/role">
+                                    <h6>
+                                        <b>ROLE</b>
+                                    </h6>
+                                </Link>
                                 <Link className="link" to="/country">
                                     <h6>
                                         <b>COUNTRY</b>
@@ -73,6 +78,7 @@ const Header = () => {
                                         <b>CITY</b>
                                     </h6>
                                 </Link>
+
 
 
                             </div>

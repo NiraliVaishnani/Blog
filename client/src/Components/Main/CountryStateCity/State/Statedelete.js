@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenToSquare, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const StateDelete = ({ id, fetchStates }) => {
     const handleDelete = async () => {
@@ -19,9 +21,8 @@ const StateDelete = ({ id, fetchStates }) => {
     };
 
     return (
-        <button className="deleteButton" onClick={handleDelete}>
-            Delete
-        </button>
+
+        <FontAwesomeIcon className="deleteButton" icon={faTrash} onClick={handleDelete} />
     );
 };
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Userdelete from './Userdelete';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenToSquare, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const User = () => {
     const [profiles, setProfiles] = useState([]);
@@ -20,21 +22,21 @@ const User = () => {
 
     return (
         <div>
-            <div className="user-profile-list-container">
+            <div className="email-template-list-container">
                 <Link to="/user/add">
-                    <button className="add-profile-button">Add User Profile</button>
+                    <button className="add-template-button">Add User Profile</button>
                 </Link>
-                <h1 className="profile-list-heading">List of User Profiles</h1>
-                <table className="profile-table">
+                <h1 className="template-list-heading">List of User Profiles</h1>
+                <table className="template-table">
                     <thead>
                         <tr>
-                            <th className="table-header">ID</th>
-                            <th className="table-header">First Name</th>
-                            <th className="table-header">Last Name</th>
-                            <th className="table-header">Gender</th>
-                            <th className="table-header">Email</th>
-                            <th className="table-header">Edit</th>
-                            <th className="table-header">Delete</th>
+                            <td className="table-header">ID</td>
+                            <td className="table-header">First Name</td>
+                            <td className="table-header">Last Name</td>
+                            <td className="table-header">Gender</td>
+                            <td className="table-header">Email</td>
+                            <td className="table-header">Action</td>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -47,10 +49,11 @@ const User = () => {
                                 <td>{profile.email}</td>
                                 <td>
                                     <Link to={`/user/${profile.id}/edit`}>
-                                        <button className="editButton">Edit</button>
+
+                                        <FontAwesomeIcon className="editButton" icon={faPenToSquare} />
+
                                     </Link>
-                                </td>
-                                <td><Userdelete id={profile.id} fetchProfiles={fetchProfiles} /></td>
+                                    <Userdelete id={profile.id} fetchProfiles={fetchProfiles} /></td>
                             </tr>
                         ))}
                     </tbody>

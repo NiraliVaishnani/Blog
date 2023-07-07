@@ -15,6 +15,7 @@ const UserSave = () => {
                 // .then(response =>
                 //     response.json()
                 // )
+
                 .then(response => {
                     console.log(response);
                     return response.json();
@@ -32,7 +33,6 @@ const UserSave = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             const url = id ? `http://localhost:5000/api/userprofile/${id}` : 'http://localhost:5000/api/userprofile';
 
@@ -76,7 +76,7 @@ const UserSave = () => {
                     <label>Email</label>
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
-                <button type="submit">{id ? 'Save Changes' : 'Save'}</button>
+                <button type="submit" className="add-template-button2">{id ? 'Save Changes' : 'Submit'}</button>
             </form>
         </div>
     );

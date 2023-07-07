@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Popup from '../../popup';
 import '../../../css/emailTemplate.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenToSquare, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 
 const EmailTemplateDelete = (props) => {
@@ -30,14 +32,13 @@ const EmailTemplateDelete = (props) => {
 
     return (
         <>
-            <td><button className="deleteButton" onClick={handleOpenPopup}>
-                Delete
-            </button></td>
+            <FontAwesomeIcon className="deleteButton" icon={faTrash} onClick={handleOpenPopup} />
 
             {isPopupOpen && (
                 <Popup title="Confirmation" open={isPopupOpen} onClose={handleClosePopup}>
                     <p>Are you sure you want to delete this item?</p>
                     <button className="fianally" onClick={handleDelete}>Confirm Delete</button>
+
                 </Popup>
             )}
         </>

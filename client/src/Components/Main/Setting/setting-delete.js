@@ -1,5 +1,7 @@
 import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenToSquare, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const Settingdelete = (props) => {
 
@@ -16,8 +18,9 @@ const Settingdelete = (props) => {
             .catch(error => console.log(error));
     }
     return (
-        <>
-            <button className="deleteButton" onClick={handleDelete}>Delete</button></>
+
+        <FontAwesomeIcon className="deleteButton" icon={faTrash} />
+
     )
 }
 

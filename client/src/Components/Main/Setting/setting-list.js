@@ -3,6 +3,8 @@ import '../../../css/Setting.css';
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom';
 import Settingdelete from './setting-delete';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenToSquare, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
 const Settinglist = () => {
     const { id } = useParams();
 
@@ -26,8 +28,8 @@ const Settinglist = () => {
                 <tr>
                     <td className="table-header">Key</td>
                     <td className="table-header">Value</td>
-                    <td className="table-header">Edit</td>
-                    <td className="table-header">Delete</td>
+                    <td className="table-header">Action</td>
+
                 </tr>
                 <tbody>
 
@@ -36,8 +38,8 @@ const Settinglist = () => {
                             <td>{settings.Key}</td>
                             <td>{settings.Value}</td>
                             <td><Link to={`/setting/${settings.id}/edit`}>
-                                <button className="editButton">Edit</button></Link></td>
-                            <td><Settingdelete id={settings.id} fetchSetting={fetchSetting} /></td>
+                                <FontAwesomeIcon className="editButton" icon={faPenToSquare} /></Link>
+                                <Settingdelete id={settings.id} fetchSetting={fetchSetting} /></td>
                         </tr>
                     ))}
                 </tbody>

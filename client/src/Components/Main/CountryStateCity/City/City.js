@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Citydelete from './Citydelete';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenToSquare, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const City = () => {
     const [cities, setCities] = useState([]);
@@ -32,8 +34,8 @@ const City = () => {
                         <tr>
                             <th className="table-header">Id</th>
                             <th className="table-header">Name</th>
-                            <th className="table-header">Edit</th>
-                            <th className="table-header">Delete</th>
+                            <th className="table-header">Action</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -43,10 +45,9 @@ const City = () => {
                                 <td>{city.name}</td>
                                 <td>
                                     <Link to={`/city/${city.id}/edit`}>
-                                        <button className="editButton">Edit</button>
+                                        <FontAwesomeIcon className="editButton" icon={faPenToSquare} />
                                     </Link>
-                                </td>
-                                <td>
+
                                     <Citydelete id={city.id} fetchCities={fetchCities} />
                                 </td>
                             </tr>
