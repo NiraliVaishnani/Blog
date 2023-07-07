@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const multer = require('multer');
 app.use(express.static('public'));
+var nodemailer = require("nodemailer");
 
 const connection = mysql.createConnection({
     host: '40.114.69.227',

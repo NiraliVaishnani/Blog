@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../../images/logo3.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import PopupButton from './PopupButton';
 
 const Header = () => {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -23,6 +24,7 @@ const Header = () => {
                     <h6>SCIENCE</h6>
                     <h6>TECHNOLOGY</h6>
                     <h6>CINEMA</h6>
+                    <PopupButton />
                     {/* <div className='search' ><input type="search" placeholder='Search by Title'></input>
                         <Link to="search/:title"><button><FontAwesomeIcon icon={faSearch} /></button></Link>
                     </div> */}
