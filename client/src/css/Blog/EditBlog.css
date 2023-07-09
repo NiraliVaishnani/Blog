@@ -21,7 +21,20 @@
     color: white;
 }
 
+.resetButton {
+
+    width: max-content;
+    border-radius: 3px;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    background-color: #0066b2;
+    border: 1px solid #0066b2;
+    color: white;
+}
+
 .deleteButton {
+    margin-left: 10px;
     width: max-content;
     border-radius: 3px;
     padding: 5px 10px;

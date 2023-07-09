@@ -1,0 +1,32 @@
+/* CSS for popup box */
+.popup-content {
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.popup-content h2 {
+    margin-bottom: 10px;
+}
+
+.popup-content button {
+    margin-top: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.popup-content button:hover {
+    background-color: #45a049;
+}

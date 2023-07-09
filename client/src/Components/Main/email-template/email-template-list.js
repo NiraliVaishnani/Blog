@@ -3,6 +3,8 @@ import '../../../css/emailTemplate.css';
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom';
 import Emailtemplatedelete from './email-template-delete';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenToSquare, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
 const Emailtemplatelist = () => {
     const { id } = useParams();
 
@@ -28,8 +30,8 @@ const Emailtemplatelist = () => {
 
                     <td className="table-header">Subject</td>
                     <td className="table-header">Body</td>
-                    <td className="table-header">Edit</td>
-                    <td className="table-header">Delete</td>
+                    <td className="table-header">Action</td>
+
                 </tr>
 
                 {emailtemplate.map((emailtemplates) => (
@@ -38,8 +40,8 @@ const Emailtemplatelist = () => {
                         <td>{emailtemplates.subject}</td>
                         <td>{emailtemplates.body}</td>
                         <td><Link to={`/email-template/${emailtemplates.id}/edit`}>
-                            <button className="editButton">Edit</button></Link></td>
-                        <Emailtemplatedelete id={emailtemplates.id} fetchEmailTemplate={fetchEmailTemplate} />
+                            <FontAwesomeIcon className="editButton" icon={faPenToSquare} /></Link>
+                            <Emailtemplatedelete id={emailtemplates.id} fetchEmailTemplate={fetchEmailTemplate} /></td>
                     </tr>
 
                 ))}

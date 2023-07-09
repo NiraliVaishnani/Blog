@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Userdelete from './Userdelete';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
-import Popup from 'reactjs-popup';
-import '../../../css/Popupreact.css';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import Popup from 'react-popup';
 
 const User = () => {
     const [profiles, setProfiles] = useState([]);
@@ -26,7 +24,7 @@ const User = () => {
 
     const handleResetPassword = () => {
         console.log('reset password');
-        // Implement the logic to reset password here
+        // Implement the logic to reset the password here
         // ...
 
         // Close the popup after resetting the password
@@ -64,28 +62,28 @@ const User = () => {
                                         <FontAwesomeIcon className="editButton" icon={faPenToSquare} />
                                     </Link>
                                     <Userdelete id={profile.id} fetchProfiles={fetchProfiles} />
-
-                                    <button className="resetButton" onClick={() => setIsPopupOpen(true)}>Reset Password</button>
+                                    <button className="resetButton" onClick={() => setIsPopupOpen(true)}>
+                                        Reset Password
+                                    </button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-            {/* Render the popup */}
-            <Popup open={isPopupOpen} closeOnDocumentClick onClose={() => setIsPopupOpen(false)}>
-                <div className="popup-content">
-                    <h2>Reset Password</h2>
-                    <h5>Are you sure u want to reset password??</h5>
-                    <button onClick={handleResetPassword}>Confirm</button>
-                </div>
-            </Popup>
+            {/* Render the popup outside the table */}
+            {isPopupOpen && (
+                <Popup modal closeOnDocumentClick onClose={() => setIsPopupOpen(false)}>
+                    <div>
+                        <h2>Reset Password</h2>
+                        {/* Add your password reset form or content here */}
+                        {/* ... */}
+                        <button onClick={handleResetPassword}>Confirm</button>
+                    </div>
+                </Popup>
+            )}
         </div>
     );
 };
 
 export default User;
-
-
-
-

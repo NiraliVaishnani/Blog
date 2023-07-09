@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom';
 import Countrydelete from './Countrydelete';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenToSquare, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
 const Country = () => {
     const [countries, setCountries] = useState([]);
+
     const { id } = useParams();
 
 
@@ -31,8 +33,9 @@ const Country = () => {
 
                         <td className="table-header">Id</td>
                         <td className="table-header">Name</td>
-                        <td className="table-header">Edit</td>
-                        <td className="table-header">Delete</td>
+                        <td className="table-header">Action</td>
+
+
                     </tr>
 
                     {countries.map((country) => (
@@ -40,9 +43,10 @@ const Country = () => {
                             <td>{country.id}</td>
                             <td>{country.name}</td>
                             <td><Link to={`/country/${country.id}/edit`}>
-                                <button className="editButton">Edit</button></Link></td>
-                            <td>  <Countrydelete id={country.id} fetchCountry={fetchCountry} />
+                                <FontAwesomeIcon className="editButton" icon={faPenToSquare} /></Link>
+                                <Countrydelete id={country.id} fetchCountry={fetchCountry} />
                             </td>
+
                         </tr>
 
                     ))}

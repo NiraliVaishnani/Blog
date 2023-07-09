@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const multer = require('multer');
 app.use(express.static('public'));
+var nodemailer = require("nodemailer");
 
 const connection = mysql.createConnection({
     host: '40.114.69.227',
@@ -489,6 +490,18 @@ const City = sequelize.define('City', {
     tableName: 'UserCity'
 });
 
+const Role = sequelize.define('Country', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    rolename: Sequelize.STRING
+}, {
+    tableName: 'Userrole'
+}
+);
+
 const UserProfile = sequelize.define('UserProfile', {
     id: {
         type: Sequelize.INTEGER,
@@ -674,10 +687,21 @@ app.get('/api/state/:id', async (req, res) => {
     }
 });
 
+// app.post('/api/state', async (req, res) => {
+//     const { name } = req.body;
+//     try {
+//         const newState = await State.create({ name });
+//         res.status(201).json(newState);
+//     } catch (error) {
+//         console.error('Error creating state:', error);
+//         res.status(500).send('Error creating state.');
+//     }
+// });
+
 app.post('/api/state', async (req, res) => {
-    const { name } = req.body;
+    const { name, countryId } = req.body; // Add countryId to the destructured object
     try {
-        const newState = await State.create({ name });
+        const newState = await State.create({ name, countryId }); // Include countryId in the create method
         res.status(201).json(newState);
     } catch (error) {
         console.error('Error creating state:', error);
@@ -685,15 +709,16 @@ app.post('/api/state', async (req, res) => {
     }
 });
 
+
 app.post('/api/state/:id', async (req, res) => {
-    const { name } = req.body;
+    const { name, countryId } = req.body;
     const id = req.params.id;
     try {
         const state = await State.findByPk(id);
         if (!state) {
             res.status(404).json({ error: 'State not found' });
         } else {
-            await state.update({ name });
+            await state.update({ name, countryId });
             res.json(state);
         }
     } catch (error) {
@@ -733,9 +758,9 @@ app.get('/api/city/:id', async (req, res) => {
 });
 
 app.post('/api/city', async (req, res) => {
-    const { name } = req.body;
+    const { name, stateId } = req.body;
     try {
-        const newCity = await City.create({ name });
+        const newCity = await City.create({ name, stateId });
         res.status(201).json(newCity);
     } catch (error) {
         console.error('Error creating city:', error);
@@ -744,14 +769,14 @@ app.post('/api/city', async (req, res) => {
 });
 
 app.post('/api/city/:id', async (req, res) => {
-    const { name } = req.body;
+    const { name, stateId } = req.body;
     const id = req.params.id;
     try {
         const city = await City.findByPk(id);
         if (!city) {
             res.status(404).json({ error: 'City not found' });
         } else {
-            await city.update({ name });
+            await city.update({ name, stateId });
             res.json(city);
         }
     } catch (error) {
@@ -786,10 +811,11 @@ app.get('/api/userprofile', async (req, res) => {
 });
 
 app.get('/api/userprofile/:id', async (req, res) => {
+
     const profiles = await UserProfile.findAll({
         where: { id: req.params.id }
     });
-    res.json(profiles);
+    res.json(profiles[0]);
 });
 
 
@@ -827,6 +853,72 @@ app.delete('/api/userprofile/:id', async (req, res) => {
     } catch (error) {
         console.error('Error deleting country:', error);
         res.status(500).send('Error deleting country.');
+    }
+});
+
+
+// Get all user roles
+app.get('/api/userrole', async (req, res) => {
+    try {
+        const userRoles = await Role.findAll();
+        res.json(userRoles);
+    } catch (error) {
+        console.error('Error retrieving user roles:', error);
+        res.status(500).send('Error retrieving user roles.');
+    }
+});
+
+// Get a specific user role by ID
+app.get('/api/userrole/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const userRole = await Role.findByPk(id);
+        if (!userRole) {
+            res.json('User role not found');
+        } else {
+            res.json(userRole);
+        }
+    } catch (error) {
+        console.error('Error retrieving user role:', error);
+        res.status(500).send('Error retrieving user role.');
+    }
+});
+
+// Create a new user role
+app.post('/api/userrole', async (req, res) => {
+    const { rolename } = req.body;
+    try {
+        const newUserRole = await Role.create({ rolename });
+        res.json(newUserRole);
+    } catch (error) {
+        console.error('Error creating user role:', error);
+        res.status(500).send('Error creating user role.');
+    }
+});
+
+// Update a user role
+app.post('/api/userrole/:id', async (req, res) => {
+    const { id } = req.params;
+    const { rolename } = req.body;
+    try {
+        await Role.update({ rolename }, { where: { id } });
+        const updatedUserRole = await Role.findByPk(id);
+        res.json(updatedUserRole);
+    } catch (error) {
+        console.error('Error updating user role:', error);
+        res.status(500).send('Error updating user role.');
+    }
+});
+
+// Delete a user role
+app.delete('/api/userrole/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        await Role.destroy({ where: { id } });
+        res.json('User role deleted successfully.');
+    } catch (error) {
+        console.error('Error deleting user role:', error);
+        res.status(500).send('Error deleting user role.');
     }
 });
 
