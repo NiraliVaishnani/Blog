@@ -24,7 +24,7 @@ const Header = () => {
                     <h6>SCIENCE</h6>
                     <h6>TECHNOLOGY</h6>
                     <h6>CINEMA</h6>
-                    <PopupButton />
+
                     {/* <div className='search' ><input type="search" placeholder='Search by Title'></input>
                         <Link to="search/:title"><button><FontAwesomeIcon icon={faSearch} /></button></Link>
                     </div> */}

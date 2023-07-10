@@ -27,6 +27,7 @@ import User from './Components/Main/User/User';
 import UserSave from './Components/Main/User/Usersave';
 import Rolesave from './Components/Main/Role/Rolesave';
 import Role from './Components/Main/Role/Role';
+import Resetpassword from './Components/Main/User/Resetpassword';
 function App() {
   return (
     <BrowserRouter>
@@ -66,6 +67,7 @@ function App() {
           <Route path='/role' element={<Role />} />
           <Route path='/role/add' element={<Rolesave />} />
           <Route path='/role/:id/edit' element={<Rolesave />} />
+          <Route path='/userprofile/reset-password' element={<Resetpassword />} />
         </Route>
       </Routes>
     </BrowserRouter>

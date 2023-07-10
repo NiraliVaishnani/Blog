@@ -8,6 +8,7 @@ const UserSave = () => {
     const [lastname, setLastname] = useState('');
     const [gender, setGender] = useState('');
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     useEffect(() => {
         if (id) {
@@ -25,6 +26,7 @@ const UserSave = () => {
                     setLastname(data.lastname);
                     setGender(data.gender);
                     setEmail(data.email);
+                    setPassword(data.password);
 
                 })
                 .catch(error => console.log(error));
@@ -42,7 +44,7 @@ const UserSave = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ firstname, lastname, gender, email }),
+                body: JSON.stringify({ firstname, lastname, gender, email, password }),
             });
 
             if (response.ok) {
@@ -75,6 +77,10 @@ const UserSave = () => {
                 <div>
                     <label>Email</label>
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 <button type="submit" className="add-template-button2">{id ? 'Save Changes' : 'Submit'}</button>
             </form>

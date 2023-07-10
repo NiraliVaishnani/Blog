@@ -13,7 +13,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const multer = require('multer');
 app.use(express.static('public'));
-var nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
+
+
 
 const connection = mysql.createConnection({
     host: '40.114.69.227',
@@ -512,6 +514,7 @@ const UserProfile = sequelize.define('UserProfile', {
     lastname: Sequelize.STRING,
     gender: Sequelize.STRING,
     email: Sequelize.STRING,
+    password: Sequelize.STRING,
 }, {
     tableName: 'UserProfile',
 })
@@ -820,27 +823,46 @@ app.get('/api/userprofile/:id', async (req, res) => {
 
 
 app.post('/api/userprofile', async (req, res) => {
-    const { firstname, lastname, gender, email } = req.body;
+    const { firstname, lastname, gender, email, password } = req.body;
     try {
-        const newprofile = await UserProfile.create({ firstname, lastname, gender, email });
-        res.status(201).json(newprofile);
+        const newProfile = await UserProfile.create({ firstname, lastname, gender, email, password });
+        res.status(201).json(newProfile);
     } catch (error) {
-        console.error('Error creating state:', error);
-        res.status(500).send('Error creating state.');
+        console.error('Error creating profile:', error);
+        res.status(500).send('Error creating profile.');
     }
 });
 
+
 // Update a profile
+// app.post('/api/userprofile/:id', async (req, res) => {
+//     const { id } = req.params;
+//     const { firstname, lastname, gender, email } = req.body;
+//     try {
+//         await UserProfile.update({ firstname, lastname, gender, email }, { where: { id } });
+//         const updatedProfile = await UserProfile.findByPk(id);
+//         res.json(updatedProfile);
+//     } catch (error) {
+//         console.error('Error updating country:', error);
+//         res.status(500).send('Error updating country.');
+//     }
+// });
+
+
 app.post('/api/userprofile/:id', async (req, res) => {
     const { id } = req.params;
-    const { firstname, lastname, gender, email } = req.body;
+    const { firstname, lastname, gender, email, password } = req.body;
     try {
-        await UserProfile.update({ firstname, lastname, gender, email }, { where: { id } });
+        const updateValues = { firstname, lastname, gender, email };
+        if (password) {
+            updateValues.password = password;
+        }
+        await UserProfile.update(updateValues, { where: { id } });
         const updatedProfile = await UserProfile.findByPk(id);
         res.json(updatedProfile);
     } catch (error) {
-        console.error('Error updating country:', error);
-        res.status(500).send('Error updating country.');
+        console.error('Error updating profile:', error);
+        res.status(500).send('Error updating profile.');
     }
 });
 
@@ -855,6 +877,118 @@ app.delete('/api/userprofile/:id', async (req, res) => {
         res.status(500).send('Error deleting country.');
     }
 });
+
+
+// app.post('/api/userprofile/resetpassword', async (req, res) => {
+//     const { email } = req.body;
+
+//     try {
+//         // Check if the email exists in the database and retrieve the user's information
+//         const userProfile = await UserProfile.findOne({ where: { email } });
+
+//         if (!userProfile) {
+//             return res.status(404).json({ error: 'User not found' });
+//         }
+
+//         const { password } = userProfile;
+
+//         // Generate a unique reset token or password reset link
+//         const resetToken = generateResetToken();
+
+//         // Save the reset token or password reset link in the user's record in the database
+//         userProfile.resetToken = resetToken;
+//         await userProfile.save();
+
+//         // Send the reset password email
+//         await sendResetPasswordEmail(email, resetToken, password);
+
+//         res.status(200).json({ message: 'Reset password email sent' });
+//     } catch (error) {
+//         console.error('Error resetting password:', error);
+//         res.status(500).json({ error: 'Internal server error' });
+//     }
+// });
+
+// async function sendResetEmail(email) {
+//     try {
+//         // Create a Nodemailer transporter using SMTP or other transport options
+//         const transporter = nodemailer.createTransport({
+//             service: 'gmail',
+//             auth: {
+//                 user: 'nirali.evince@gmail.com',
+//                 pass: 'qaspbrvjqdsowvwz'
+//             }
+//         });
+
+//         // Compose the email message
+//         const mailOptions = {
+//             from: 'nirali.evince@gmail.com',
+//             to: email,
+//             subject: 'Password Reset',
+//             text: 'Your password has been successfully reset.',
+//             html: '<p>Your password has been successfully reset.</p>',
+//         };
+
+//         // Send the email
+//         await transporter.sendMail(mailOptions);
+//     } catch (error) {
+//         console.error('Error sending reset password email:', error);
+//         throw error;
+//     }
+// }
+
+
+
+//Example route handler to send reset password email
+app.post('/api/reset-password', async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        // Call the sendResetPasswordEmail function
+        await sendResetPasswordEmail(email);
+
+        res.json({ message: 'Reset password email sent' });
+    } catch (error) {
+        console.error('Error sending reset password email:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+async function sendResetPasswordEmail(email) {
+    try {
+        // Create a Nodemailer transporter using SMTP or other transport options
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'nirali.evince@gmail.com',
+                pass: 'qaspbrvjqdsowvwz'
+            }
+        });
+
+        const resetPasswordLink = 'http://localhost:3000/userprofile/reset-password'; // Replace with your home page URL
+        const linkName = 'Reset Password'; // The custom link name you want to display
+
+        // Compose the email message
+        const mailOptions = {
+            from: 'nirali.evince@gmail.com',
+            to: email,
+            subject: 'Reset Your Password',
+            html: `<p>Click the link below to ${linkName}:</p>
+         <a href="${resetPasswordLink}">${linkName}</a>`,
+        };
+
+
+
+        // Send the email
+        await transporter.sendMail(mailOptions);
+    } catch (error) {
+        console.error('Error sending reset password email:', error);
+        throw error;
+    }
+}
+
+
+
 
 
 // Get all user roles

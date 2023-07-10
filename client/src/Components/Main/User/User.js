@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Userdelete from './Userdelete';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import Popup from 'reactjs-popup';
 import '../../../css/Popupreact.css';
 
@@ -23,14 +23,46 @@ const User = () => {
             })
             .catch(error => console.log(error));
     };
+    // const handleResetPassword = (email) => {
+    //     sendResetPasswordEmail(email)
+    //         .then(() => {
+    //             setIsPopupOpen(false);
+    //             console.log('Password reset request sent');
+    //         })
+    //         .catch(error => console.log(error));
+    // };
+    // const handleResetPassword = (email) => {
+    //     fetch('/api/reset-password', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ email }),
+    //     })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             // Handle the response from the server
+    //             console.log('Password reset request sent');
+    //         })
+    //         .catch(error => console.log(error));
+    // };
+    const handleResetPassword = (email) => {
 
-    const handleResetPassword = () => {
-        console.log('reset password');
-        // Implement the logic to reset password here
-        // ...
 
-        // Close the popup after resetting the password
-        setIsPopupOpen(false);
+        fetch('http://localhost:5000/api/reset-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the server
+                console.log('Password reset request sent');
+            })
+            .catch(error => console.log(error));
+
     };
 
     return (
@@ -48,6 +80,7 @@ const User = () => {
                             <td className="table-header">Last Name</td>
                             <td className="table-header">Gender</td>
                             <td className="table-header">Email</td>
+                            <td className="table-header">Password</td>
                             <td className="table-header">Action</td>
                         </tr>
                     </thead>
@@ -59,13 +92,16 @@ const User = () => {
                                 <td>{profile.lastname}</td>
                                 <td>{profile.gender}</td>
                                 <td>{profile.email}</td>
+                                <td>{profile.password}</td>
                                 <td>
                                     <Link to={`/user/${profile.id}/edit`}>
                                         <FontAwesomeIcon className="editButton" icon={faPenToSquare} />
                                     </Link>
                                     <Userdelete id={profile.id} fetchProfiles={fetchProfiles} />
 
-                                    <button className="resetButton" onClick={() => setIsPopupOpen(true)}>Reset Password</button>
+                                    {/* <button className="resetButton" onClick={() => setIsPopupOpen(true)}>Reset Password</button> */}
+                                    <button className="resetButton" onClick={() => handleResetPassword(profile.email)}>Reset Password</button>
+
                                 </td>
                             </tr>
                         ))}
