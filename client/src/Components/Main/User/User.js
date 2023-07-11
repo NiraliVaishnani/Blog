@@ -10,6 +10,7 @@ import '../../../css/Popupreact.css';
 const User = () => {
     const [profiles, setProfiles] = useState([]);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [selectedProfileEmail, setSelectedProfileEmail] = useState('');
 
     useEffect(() => {
         fetchProfiles();
@@ -23,31 +24,8 @@ const User = () => {
             })
             .catch(error => console.log(error));
     };
-    // const handleResetPassword = (email) => {
-    //     sendResetPasswordEmail(email)
-    //         .then(() => {
-    //             setIsPopupOpen(false);
-    //             console.log('Password reset request sent');
-    //         })
-    //         .catch(error => console.log(error));
-    // };
-    // const handleResetPassword = (email) => {
-    //     fetch('/api/reset-password', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ email }),
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             // Handle the response from the server
-    //             console.log('Password reset request sent');
-    //         })
-    //         .catch(error => console.log(error));
-    // };
-    const handleResetPassword = (email) => {
 
+    const handleResetPassword = (email) => {
 
         fetch('http://localhost:5000/api/reset-password', {
             method: 'POST',
@@ -60,6 +38,7 @@ const User = () => {
             .then(data => {
                 // Handle the response from the server
                 console.log('Password reset request sent');
+                setIsPopupOpen(false)
             })
             .catch(error => console.log(error));
 
@@ -99,8 +78,13 @@ const User = () => {
                                     </Link>
                                     <Userdelete id={profile.id} fetchProfiles={fetchProfiles} />
 
-                                    {/* <button className="resetButton" onClick={() => setIsPopupOpen(true)}>Reset Password</button> */}
-                                    <button className="resetButton" onClick={() => handleResetPassword(profile.email)}>Reset Password</button>
+                                    {/* 
+                                    <button className="resetButton"  onClick={() => setIsPopupOpen(true)}>Reset Password</button> */}
+                                    <button className="resetButton" onClick={() => {
+                                        setSelectedProfileEmail(profile.email);
+                                        setIsPopupOpen(true);
+                                    }}>Reset Password</button>
+                                    {/* <button className="resetButton" onClick={() => handleResetPassword(profile.email)}>Reset Password</button> */}
 
                                 </td>
                             </tr>
@@ -113,7 +97,7 @@ const User = () => {
                 <div className="popup-content">
                     <h2>Reset Password</h2>
                     <h5>Are you sure u want to reset password??</h5>
-                    <button onClick={handleResetPassword}>Confirm</button>
+                    <button onClick={() => handleResetPassword(selectedProfileEmail)}>Confirm</button>
                 </div>
             </Popup>
         </div>

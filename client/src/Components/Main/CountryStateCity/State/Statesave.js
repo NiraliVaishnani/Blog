@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
+import '../../../../css/CountryStateCity.css'
 const Statesave = () => {
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState('');
@@ -66,7 +66,7 @@ const Statesave = () => {
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <label>
+                <label class="dropdown" >
                     Country:
                     <select value={selectedCountry} onChange={handleCountryChange}>
 
@@ -75,7 +75,7 @@ const Statesave = () => {
                             <option key={country.id} value={country.id}>{country.name}</option>
                         ))}
                     </select>
-                </label>
+                </label><br></br><br></br>
                 <div className="email-template-list-container">
 
                     {id ? <h2>Edit State</h2> : <h2>Add State</h2>}

@@ -16,6 +16,8 @@ const multer = require("multer");
 app.use(express.static("public"));
 const nodemailer = require("nodemailer");
 
+
+
 const connection = mysql.createConnection({
   host: "40.114.69.227",
   user: "dotnet_SumitM",
@@ -891,7 +893,6 @@ app.post("/api/reset-password", async (req, res) => {
     // const updatedProfile = await UserProfile.findByPk(id);
     const updatedProfile = await UserProfile.findOne({ where: { email } });
 
-    res.json(updatedProfile);
     // Call the sendResetPasswordEmail function with the reset token
     await sendResetPasswordEmail(email, resetToken);
 
@@ -932,43 +933,6 @@ async function sendResetPasswordEmail(email, resetToken) {
     console.error("Error sending reset password email:", error);
   }
 }
-app.get("/userprofile/reset-password/:resetToken", (req, res) => {
-  const resetToken = req.params.resetToken;
-
-  // Render the password reset page and pass the reset token as a parameter
-  res.render("reset-password", { resetToken });
-});
-// app.post("/userprofile/reset-password/:resetToken", async (req, res) => {
-//   const resetToken = req.params.resetToken;
-//   const newPassword = req.body.password;
-
-//   try {
-//     // Validate the reset token and check if it's still valid
-//     const user = await UserProfile.findOne({
-//       where: {
-//         resetToken,
-//         resetTokenExpiration: { [Sequelize.Op.gt]: Date.now() }, // Check if the reset token is still valid (not expired)
-//       },
-//     });
-
-//     if (!user) {
-//       return res.status(400).json({ error: "Invalid or expired reset token" });
-//     }
-
-//     // Update the user's password and clear the reset token
-//     user.password = newPassword;
-//     user.resetToken = null;
-//     user.resetTokenExpiration = null;
-//     await user.save();
-
-//     res.json({ message: "Password reset successful" });
-//   } catch (error) {
-//     console.error("Error resetting password:", error);
-//     res
-//       .status(500)
-//       .json({ error: "An error occurred while resetting password" });
-//   }
-// });
 
 app.post("/userprofile/reset-password/:resetToken", async (req, res) => {
   const resetToken = req.params.resetToken;
@@ -979,7 +943,7 @@ app.post("/userprofile/reset-password/:resetToken", async (req, res) => {
     const user = await UserProfile.findOne({
       where: {
         resetToken,
-        resetTokenExpiration: { [Sequelize.Op.gt]: Date.now() },
+
       },
     });
 
@@ -990,7 +954,6 @@ app.post("/userprofile/reset-password/:resetToken", async (req, res) => {
     // Update the user's password and clear the reset token
     user.password = newPassword;
     user.resetToken = null;
-    user.resetTokenExpiration = null;
     await user.save();
 
     res.status(200).json({ message: "Password reset successful" });
@@ -1002,84 +965,6 @@ app.post("/userprofile/reset-password/:resetToken", async (req, res) => {
   }
 });
 
-//Example route handler to send reset password email
-// app.post("/api/reset-password", async (req, res) => {
-//   const { email } = req.body;
-
-//   try {
-//     // Call the sendResetPasswordEmail function
-//     await sendResetPasswordEmail(email);
-
-//     res.json({ message: "Reset password email sent" });
-//   } catch (error) {
-//     console.error("Error sending reset password email:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// });
-// async function sendResetPasswordEmail(email) {
-//   try {
-
-//     const transporter = nodemailer.createTransport({
-//       service: "gmail",
-//       auth: {
-//         user: "nirali.evince@gmail.com",
-//         pass: "qaspbrvjqdsowvwz",
-//       },
-//     });
-
-//     const resetPasswordLink = `http://localhost:3000/userprofile/reset-password/${resetToken}`; // Replace with your home page URL
-//     const linkName = "Reset Password";
-
-//     // Compose the email message
-//     const mailOptions = {
-//       from: "nirali.evince@gmail.com",
-//       to: email,
-//       subject: "Reset Your Password",
-//       html: `<p>Click the link below to ${linkName}:</p>
-//          <a href="${resetPasswordLink}">${linkName}</a>`,
-//     };
-//     // app.post('/api/user/reset-Password', async (req, res) => {
-//     //     const { email, password } = req.body;
-//     //     try {
-//     //         await UserProfile.update(password, { where: { email } });
-//     //         const updatedProfile = await UserProfile.findByPk(id);
-//     //         res.json(updatedProfile);
-//     //     } catch (error) {
-//     //         console.error('Error', error);
-//     //     }
-
-//     // });
-
-//     app.post("/api/user/reset-password", async (req, res) => {
-//       const { password } = req.body;
-//       const { email } = req.user; // Assuming you have the email in the request user object
-
-//       try {
-//         // Assuming you have a Sequelize model called UserProfile
-//         const userProfile = await UserProfile.findOne({ where: { email } });
-
-//         if (!userProfile) {
-//           return res.status(404).json({ error: "User not found" });
-//         }
-//         userProfile.password = password;
-//         await userProfile.save();
-
-//         res.json(userProfile);
-//       } catch (error) {
-//         console.error("Error", error);
-//         res
-//           .status(500)
-//           .json({ error: "An error occurred during password reset" });
-//       }
-//     });
-
-//     // Send the email
-//     await transporter.sendMail(mailOptions);
-//   } catch (error) {
-//     console.error("Error sending reset password email:", error);
-//     throw error;
-//   }
-// }
 
 // Get all user roles
 app.get("/api/userrole", async (req, res) => {

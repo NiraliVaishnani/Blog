@@ -29,3 +29,25 @@
     text-decoration: none;
     display: block;
 } */
+.dropdown {
+    display: inline-block;
+    position: relative;
+}
+
+.dropdown select {
+    margin-top: 10px;
+
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+
+
+}
+
+.dropdown select:focus {
+    outline: none;
+    /* border-color: teal; */
+    box-shadow: 0 0 0 2px teal;
+}
