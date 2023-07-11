@@ -888,7 +888,9 @@ app.post("/api/reset-password", async (req, res) => {
     const resetToken = crypto.randomBytes(20).toString("hex");
     // Update the user's profile with the reset token
     await UserProfile.update({ resetToken }, { where: { email } });
-    const updatedProfile = await UserProfile.findByPk(id);
+    // const updatedProfile = await UserProfile.findByPk(id);
+    const updatedProfile = await UserProfile.findOne({ where: { email } });
+
     res.json(updatedProfile);
     // Call the sendResetPasswordEmail function with the reset token
     await sendResetPasswordEmail(email, resetToken);
