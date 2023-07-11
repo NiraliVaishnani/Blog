@@ -19,7 +19,7 @@ const Settingdelete = (props) => {
     }
     return (
 
-        <FontAwesomeIcon className="deleteButton" icon={faTrash} />
+        <FontAwesomeIcon onClick={handleDelete} className="deleteButton" icon={faTrash} />
 
     )
 }

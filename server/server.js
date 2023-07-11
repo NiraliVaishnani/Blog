@@ -16,6 +16,11 @@ const multer = require("multer");
 app.use(express.static("public"));
 const nodemailer = require("nodemailer");
 
+const emailTemplateRoutes = require("./routes/emailTemplateRoutes");
+const settingRoutes = require("./routes/settingRoutes.js");
+const roleRoutes = require("./routes/rolesRoutes.js");
+const registerRoutes = require("./routes/registerRoutes.js");
+
 
 
 const connection = mysql.createConnection({
@@ -73,54 +78,21 @@ Blog.sequelize.sync().then(() => {
   console.log("yes re sync");
 });
 
-const EmailTemplate = sequelize.define(
-  "emailtemplate",
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    subject: Sequelize.STRING,
-    body: Sequelize.STRING,
-  },
-  {
-    tableName: "BlogEmailTemplate",
-  }
-);
 
-const BlogSetting = sequelize.define(
-  "Setting",
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    Key: Sequelize.STRING,
-    Value: Sequelize.STRING,
-  },
-  {
-    tableName: "BlogSetting",
-  }
-);
+// Use the emailTemplateRoutes
+app.use("/api", emailTemplateRoutes);
 
-const Register = sequelize.define(
-  "register",
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    username: Sequelize.STRING,
-    email: Sequelize.STRING,
-    password: Sequelize.STRING,
-  },
-  {
-    tableName: "BlogUserregistration",
-  }
-);
+
+// Use the settingRoutes
+app.use("/api", settingRoutes);
+
+// Use the roleRoutes
+app.use("/api", roleRoutes);
+
+// Use the registerRoutes
+app.use("/api/account", registerRoutes);
+
+
 
 const path = require("path");
 const storage = multer.diskStorage({
@@ -195,9 +167,7 @@ app.get("/api/blog", async (req, res) => {
   }
 });
 
-// app.get('/api/blog/search', async (req, res) => {
 
-// });
 
 app.get("/api/blog/search", async (req, res) => {
   const { title } = req.query; // Get the title query parameter
@@ -278,6 +248,7 @@ app.post("/api/blog/:id", upload.single("image"), async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+
 });
 
 app.delete("/api/blog/:id", async (req, res) => {
@@ -290,125 +261,6 @@ app.delete("/api/blog/:id", async (req, res) => {
   }
 });
 
-app.get("/api/emailtemplate", async (req, res) => {
-  const response = await EmailTemplate.findAll();
-  res.json(response);
-});
-
-app.get("/api/emailtemplate/:id", async (req, res) => {
-  const sql = await EmailTemplate.findByPk(req.params.id);
-  res.json(sql);
-});
-
-app.post("/api/emailtemplate", async (req, res) => {
-  const { subject, body } = req.body;
-  try {
-    const sql = await EmailTemplate.create({ subject, body });
-    res.json(sql);
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-app.post("/api/emailtemplate/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const { subject, body } = req.body;
-    await EmailTemplate.update({ subject, body }, { where: { id: id } });
-    const updatedTask = await EmailTemplate.findByPk(id); // Retrieve the updated task from the database
-    res.json(updatedTask);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-app.delete("/api/emailtemplate/:id", async (req, res) => {
-  const id = req.params.id;
-  try {
-    await EmailTemplate.destroy({ where: { id: id } });
-    res.json("Deleted successfully");
-  } catch {
-    res.json("Error");
-  }
-});
-
-app.get("/api/setting", async (req, res) => {
-  const settings = await BlogSetting.findAll();
-  res.json(settings);
-});
-
-app.get("/api/setting/:id", async (req, res) => {
-  const setting = await BlogSetting.findByPk(req.params.id).then((user) => {
-    if (!user) {
-      res.json("User not found");
-    } else {
-      res.json(user);
-    }
-  });
-});
-
-app.post("/api/setting", async (req, res) => {
-  const { Key, Value } = req.body;
-  try {
-    const newSetting = await BlogSetting.create({ Key, Value });
-    res.json(newSetting);
-  } catch (error) {
-    console.error("Error creating Setting:", error);
-    res.status(500).send("Error creating Setting.");
-  }
-});
-app.post("/api/setting/:id", async (req, res) => {
-  const { Key, Value } = req.body;
-  const id = req.params.id;
-  try {
-    await BlogSetting.update(
-      {
-        Key: Key,
-        Value: Value,
-      },
-      {
-        where: {
-          id: id,
-        },
-      }
-    );
-    const updatedSetting = await BlogSetting.findByPk(id);
-    res.json(updatedSetting);
-  } catch (error) {
-    console.error("Error updating Setting:", error);
-    res.status(500).send("Error updating Setting.");
-  }
-});
-
-app.delete("/api/setting/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    await BlogSetting.destroy({
-      where: {
-        id: id,
-      },
-    });
-    res.json("Deleted successfully");
-  } catch (error) {
-    res.json("Error");
-  }
-});
-
-app.get("/api/account/register", async (req, res) => {
-  const sql = await Register.findAll();
-  res.json(sql);
-});
-
-app.post("/api/account/register", async (req, res) => {
-  const { username, email, password } = req.body;
-  try {
-    const sql = await Register.create({ username, email, password });
-    res.json(sql);
-  } catch (err) {
-    console.log(err);
-  }
-});
 
 app.post("/api/account/login", async (req, res) => {
   const { email, password } = req.body;
@@ -505,20 +357,7 @@ const City = sequelize.define(
   }
 );
 
-const Role = sequelize.define(
-  "Country",
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    rolename: Sequelize.STRING,
-  },
-  {
-    tableName: "Userrole",
-  }
-);
+
 
 const UserProfile = sequelize.define(
   "UserProfile",
@@ -540,35 +379,6 @@ const UserProfile = sequelize.define(
   }
 );
 
-const Address = sequelize.define(
-  "Address",
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    country: {
-      type: Sequelize.STRING,
-      field: "country",
-    },
-    state: {
-      type: Sequelize.STRING,
-      field: "state",
-    },
-    city: {
-      type: Sequelize.STRING,
-      field: "city",
-    },
-  },
-  {
-    tableName: "UserAddress",
-  }
-);
-
-Address.sequelize.sync().then(() => {
-  console.log("yes re sync");
-});
 
 Country.hasMany(State, { foreignKey: "countryId" });
 State.belongsTo(Country, { foreignKey: "countryId" });
@@ -599,16 +409,6 @@ app.get("/api/address/city/:stateId", async (req, res) => {
   res.json(cities);
 });
 
-// app.post('/api/address', async (req, res) => {
-//     const { country, state, city } = req.body;
-//     try {
-//         const newSetting = await Address.create({ country: countryId, state: stateId, city: selectedCity });
-//         res.json(newSetting);
-//     } catch (error) {
-//         console.error('Error creating Setting:', error);
-//         res.status(500).send('Error creating Setting.');
-//     }
-// });
 
 // API endpoint to handle form submission
 app.post("/api/address/submit", async (req, res) => {
@@ -707,16 +507,7 @@ app.get("/api/state/:id", async (req, res) => {
   }
 });
 
-// app.post('/api/state', async (req, res) => {
-//     const { name } = req.body;
-//     try {
-//         const newState = await State.create({ name });
-//         res.status(201).json(newState);
-//     } catch (error) {
-//         console.error('Error creating state:', error);
-//         res.status(500).send('Error creating state.');
-//     }
-// });
+
 
 app.post("/api/state", async (req, res) => {
   const { name, countryId } = req.body; // Add countryId to the destructured object
@@ -849,7 +640,6 @@ app.post("/api/userprofile", async (req, res) => {
     res.status(201).json(newProfile);
   } catch (error) {
     console.error("Error creating profile:", error);
-    res.status(500).send("Error creating profile.");
   }
 });
 
@@ -965,70 +755,5 @@ app.post("/userprofile/reset-password/:resetToken", async (req, res) => {
   }
 });
 
-
-// Get all user roles
-app.get("/api/userrole", async (req, res) => {
-  try {
-    const userRoles = await Role.findAll();
-    res.json(userRoles);
-  } catch (error) {
-    console.error("Error retrieving user roles:", error);
-    res.status(500).send("Error retrieving user roles.");
-  }
-});
-
-// Get a specific user role by ID
-app.get("/api/userrole/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const userRole = await Role.findByPk(id);
-    if (!userRole) {
-      res.json("User role not found");
-    } else {
-      res.json(userRole);
-    }
-  } catch (error) {
-    console.error("Error retrieving user role:", error);
-    res.status(500).send("Error retrieving user role.");
-  }
-});
-
-// Create a new user role
-app.post("/api/userrole", async (req, res) => {
-  const { rolename } = req.body;
-  try {
-    const newUserRole = await Role.create({ rolename });
-    res.json(newUserRole);
-  } catch (error) {
-    console.error("Error creating user role:", error);
-    res.status(500).send("Error creating user role.");
-  }
-});
-
-// Update a user role
-app.post("/api/userrole/:id", async (req, res) => {
-  const { id } = req.params;
-  const { rolename } = req.body;
-  try {
-    await Role.update({ rolename }, { where: { id } });
-    const updatedUserRole = await Role.findByPk(id);
-    res.json(updatedUserRole);
-  } catch (error) {
-    console.error("Error updating user role:", error);
-    res.status(500).send("Error updating user role.");
-  }
-});
-
-// Delete a user role
-app.delete("/api/userrole/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    await Role.destroy({ where: { id } });
-    res.json("User role deleted successfully.");
-  } catch (error) {
-    console.error("Error deleting user role:", error);
-    res.status(500).send("Error deleting user role.");
-  }
-});
 
 app.listen(5000);
