@@ -35,6 +35,7 @@ const Role = () => {
                         <tr>
                             <td className="table-header">ID</td>
                             <td className="table-header">Role Name</td>
+                            <td className="table-header">Permission Name</td>
                             <td className="table-header">Action</td>
 
                         </tr>
@@ -44,6 +45,7 @@ const Role = () => {
                             <tr key={role.id}>
                                 <td>{role.id}</td>
                                 <td>{role.rolename}</td>
+                                <td>{role.permissionName}</td>
                                 <td>
                                     <Link to={`/role/${role.id}/edit`}>
 

@@ -60,6 +60,8 @@ const User = () => {
                             <td className="table-header">Gender</td>
                             <td className="table-header">Email</td>
                             <td className="table-header">Password</td>
+                            <td className="table-header">Role</td>
+
                             <td className="table-header">Action</td>
                         </tr>
                     </thead>
@@ -72,6 +74,7 @@ const User = () => {
                                 <td>{profile.gender}</td>
                                 <td>{profile.email}</td>
                                 <td>{profile.password}</td>
+                                <td>{profile.rolename}</td>
                                 <td>
                                     <Link to={`/user/${profile.id}/edit`}>
                                         <FontAwesomeIcon className="editButton" icon={faPenToSquare} />

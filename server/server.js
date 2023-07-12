@@ -353,6 +353,23 @@ const City = sequelize.define(
   }
 );
 
+
+const Rolepermission = sequelize.define(
+  "UserPermission",
+  {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    PermissionName: Sequelize.STRING,
+    RoleId: Sequelize.INTEGER,
+  },
+  {
+    tableName: "UserPermission",
+  }
+);
+
 // Accessing Role model
 Role.findAll()
   .then(roles => {
