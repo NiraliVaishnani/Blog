@@ -52,6 +52,14 @@ sequelize
     console.error("Unable to connect to the database:", err);
   });
 
+
+
+app.use("/api", emailTemplateRoutes);
+app.use("/api", settingRoutes);
+app.use("/api", roleRoutes);
+app.use("/api/account", registerRoutes);
+
+
 const Blog = sequelize.define(
   "blog",
   {
@@ -78,19 +86,6 @@ Blog.sequelize.sync().then(() => {
   console.log("yes re sync");
 });
 
-
-// Use the emailTemplateRoutes
-app.use("/api", emailTemplateRoutes);
-
-
-// Use the settingRoutes
-app.use("/api", settingRoutes);
-
-// Use the roleRoutes
-app.use("/api", roleRoutes);
-
-// Use the registerRoutes
-app.use("/api/account", registerRoutes);
 
 
 
