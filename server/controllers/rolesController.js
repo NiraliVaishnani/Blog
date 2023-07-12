@@ -26,9 +26,9 @@ exports.getRoleById = async (req, res) => {
 }
 
 exports.createRole = async (req, res) => {
-    const { rolename } = req.body;
+    const { rolename, permissionName } = req.body;
     try {
-        const newUserRole = await Role.create({ rolename });
+        const newUserRole = await Role.create({ rolename, permissionName });
         res.json(newUserRole);
     } catch (error) {
         console.error("Error creating user role:", error);
@@ -39,9 +39,9 @@ exports.createRole = async (req, res) => {
 
 exports.updateRole = async (req, res) => {
     const { id } = req.params;
-    const { rolename } = req.body;
+    const { rolename, permissionName } = req.body;
     try {
-        await Role.update({ rolename }, { where: { id } });
+        await Role.update({ rolename, permissionName }, { where: { id } });
         const updatedUserRole = await Role.findByPk(id);
         res.json(updatedUserRole);
     } catch (error) {

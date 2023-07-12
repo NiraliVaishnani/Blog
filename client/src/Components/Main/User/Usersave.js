@@ -9,6 +9,8 @@ const UserSave = () => {
     const [gender, setGender] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [roles, setRoles] = useState([]);
+    const [selectRoles, setSelectedRoles] = useState('');
 
     useEffect(() => {
         if (id) {
@@ -18,6 +20,7 @@ const UserSave = () => {
                     return response.json();
                 })
                 .then(data => {
+                    setSelectedRoles(data.selectRoles)
                     setFirstname(data.firstname);
                     setLastname(data.lastname);
                     setGender(data.gender);
@@ -28,6 +31,18 @@ const UserSave = () => {
                 .catch(error => console.log(error));
         }
     }, [id]);
+
+    useEffect(() => {
+        // Fetch the list of roles from the backend API
+        fetch('http://localhost:5000/api/userrole')
+            .then(response => response.json())
+            .then(data => setRoles(data))
+            .catch(error => {
+                console.error('Error fetching countries:', error);
+            });
+    }, []);
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -40,7 +55,7 @@ const UserSave = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ firstname, lastname, gender, email, password }),
+                body: JSON.stringify({ firstname, lastname, gender, email, password, rolename: selectRoles }),
             });
 
             if (response.ok) {
@@ -53,11 +68,23 @@ const UserSave = () => {
             console.error(error)
         }
     };
+    const handleRoleChange = (event) => {
+        setSelectedRoles(event.target.value);
+    }
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
                 <h2>{id ? 'Edit User Profile' : 'Add User Profile'}</h2>
+                <label class="dropdown" >
+                    Role:
+                    <select value={selectRoles} onChange={handleRoleChange}>
+                        <option value="">Select Role</option>
+                        {roles.map(role => (
+                            <option key={role.id} value={role.rolename}>{role.rolename}</option>
+                        ))}
+                    </select>
+                </label><br></br><br></br>
                 <div>
                     <label>First Name</label>
                     <input type="text" value={firstname} onChange={(e) => setFirstname(e.target.value)} />

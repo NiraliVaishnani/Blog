@@ -1,7 +1,6 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const RoleDelete = (props) => {
     const handleDelete = async () => {

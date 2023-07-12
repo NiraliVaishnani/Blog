@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 const multer = require("multer");
 app.use(express.static("public"));
 const nodemailer = require("nodemailer");
+const Role = require('./models/roles')
 
 const emailTemplateRoutes = require("./routes/emailTemplateRoutes");
 const settingRoutes = require("./routes/settingRoutes.js");
@@ -352,7 +353,14 @@ const City = sequelize.define(
   }
 );
 
-
+// Accessing Role model
+Role.findAll()
+  .then(roles => {
+    console.log('Roles:', roles);
+  })
+  .catch(error => {
+    console.error('Error fetching Roles:', error);
+  });
 
 const UserProfile = sequelize.define(
   "UserProfile",
@@ -368,12 +376,14 @@ const UserProfile = sequelize.define(
     email: Sequelize.STRING,
     password: Sequelize.STRING,
     resetToken: Sequelize.STRING,
+    rolename: Sequelize.STRING,
   },
   {
     tableName: "UserProfile",
   }
 );
 
+UserProfile.belongsTo(Role, { foreignKey: "rolename" })
 
 Country.hasMany(State, { foreignKey: "countryId" });
 State.belongsTo(Country, { foreignKey: "countryId" });
@@ -623,7 +633,7 @@ app.get("/api/userprofile/:id", async (req, res) => {
 });
 
 app.post("/api/userprofile", async (req, res) => {
-  const { firstname, lastname, gender, email, password } = req.body;
+  const { firstname, lastname, gender, email, password, rolename } = req.body;
   try {
     const newProfile = await UserProfile.create({
       firstname,
@@ -631,6 +641,7 @@ app.post("/api/userprofile", async (req, res) => {
       gender,
       email,
       password,
+      rolename
     });
     res.status(201).json(newProfile);
   } catch (error) {
@@ -640,9 +651,9 @@ app.post("/api/userprofile", async (req, res) => {
 
 app.post("/api/userprofile/:id", async (req, res) => {
   const { id } = req.params;
-  const { firstname, lastname, gender, email, password } = req.body;
+  const { firstname, lastname, gender, email, password, name, rolename } = req.body;
   try {
-    const updateValues = { firstname, lastname, gender, email };
+    const updateValues = { firstname, lastname, gender, email, name, rolename };
     if (password) {
       updateValues.password = password;
     }

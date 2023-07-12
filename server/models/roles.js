@@ -12,6 +12,7 @@ const Role = sequelize.define(
             autoIncrement: true,
         },
         rolename: Sequelize.STRING,
+        permissionName: Sequelize.STRING,
     },
     {
         tableName: "Userrole",

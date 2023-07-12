@@ -16,7 +16,6 @@ import BlogForm from "./Components/Main/Blog/Addblog";
 import EmailTemplateForm from "./Components/Main/email-template/email-template-save";
 import SettingForm from "./Components/Main/Setting/setting-save";
 import Search from "./Components/Main/Search";
-
 import Country from "./Components/Main/CountryStateCity/Country/Country";
 import State from "./Components/Main/CountryStateCity/State/State";
 import City from "./Components/Main/CountryStateCity/City/City";
@@ -43,10 +42,7 @@ function App() {
           <Route path="/addblog" element={<BlogForm />} />
           <Route path="/email-template" element={<Emailtemplatelist />} />
           <Route path="/email-template/add" element={<EmailTemplateForm />} />
-          <Route
-            path="/email-template/:id/edit"
-            element={<EmailTemplateForm />}
-          />
+          <Route path="/email-template/:id/edit" element={<EmailTemplateForm />} />
           <Route path="/setting" element={<Settinglist />}></Route>
           <Route path="/setting/add" element={<SettingForm />} />
           <Route path="/setting/:id/edit" element={<SettingForm />} />
@@ -70,10 +66,7 @@ function App() {
           <Route path="/role" element={<Role />} />
           <Route path="/role/add" element={<Rolesave />} />
           <Route path="/role/:id/edit" element={<Rolesave />} />
-          <Route
-            path="/userprofile/reset-password/:resetToken"
-            element={<Resetpassword />}
-          />
+          <Route path="/userprofile/reset-password/:resetToken" element={<Resetpassword />} />
         </Route>
       </Routes>
     </BrowserRouter>
