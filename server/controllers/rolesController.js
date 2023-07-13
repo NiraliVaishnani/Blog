@@ -39,9 +39,10 @@ exports.createRole = async (req, res) => {
 
 exports.updateRole = async (req, res) => {
     const { id } = req.params;
-    const { rolename, permissionName } = req.body;
+    const { rolename } = req.body;
     try {
-        await Role.update({ rolename, permissionName }, { where: { id } });
+
+        await Role.update({ rolename }, { where: { id } });
         const updatedUserRole = await Role.findByPk(id);
         res.json(updatedUserRole);
     } catch (error) {

@@ -370,6 +370,146 @@ const Rolepermission = sequelize.define(
   }
 );
 
+
+app.post("/api/userpermission", async (req, res) => {
+  const { permissions, RoleId } = req.body;
+  console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+  try {
+    // Create new permissions for the role
+    for (const permission of permissions) {
+      await Rolepermission.create({
+        PermissionName: permission,
+        RoleId: RoleId,
+      });
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error creating user permissions:", error);
+    res.status(500).send("Error creating user permissions.");
+  }
+});
+
+
+
+app.post("/api/userpermission/:roleId", async (req, res) => {
+  const { roleId } = req.params;
+  const { permissions } = req.body;
+  try {
+
+    try {// Delete existing permissions for the role
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>ddffd");
+      const deleted = await Rolepermission.destroy({ where: { RoleId: roleId } });
+      console.log("Delete", deleted)
+    } catch (e) {
+      console.log("Error deleting permissions");
+    }
+
+    // Create new permissions for the role
+    for (const permission of permissions) {
+      await Rolepermission.create({
+        PermissionName: permission,
+        RoleId: roleId,
+      });
+    }
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error("Error updating user permissions:", error);
+    res.status(500).send("Error updating user permissions.");
+  }
+});
+
+
+
+
+// GET UserPermission by RoleId
+app.get("/api/userpermission/:roleId", async (req, res) => {
+  const { roleId } = req.params;
+  try {
+    const userPermissions = await Rolepermission.findAll({
+      where: { RoleId: roleId },
+    });
+    res.json(userPermissions);
+  } catch (error) {
+    console.error("Error retrieving UserPermissions:", error);
+    res.status(500).send("Error retrieving UserPermissions.");
+  }
+});
+
+
+// Update UserPermission by RoleId
+// app.post("/api/userpermission/:roleId", async (req, res) => {
+//   const { roleId } = req.params;
+//   const { permissions } = req.body;
+
+//   try {
+//     // Delete existing permissions for the role
+//     await Rolepermission.destroy({ where: { RoleId: roleId } });
+
+//     // Create new permissions for the role
+//     for (const permission of permissions) {
+//       await Rolepermission.create({
+//         PermissionName: permission,
+//         RoleId: roleId,
+//       });
+//     }
+
+//     res.sendStatus(200);
+//   } catch (error) {
+//     console.error("Error updating user permissions:", error);
+//     res.status(500).send("Error updating user permissions.");
+//   }
+// });
+
+// // Update UserPermission by RoleId
+// app.post("/api/userpermission/:roleId", async (req, res) => {
+//   const { roleId } = req.params;
+//   let { permissions } = req.body;
+
+//   // Ensure permissions is an array
+//   permissions = Array.isArray(permissions) ? permissions : [];
+
+//   try {
+//     // Delete existing permissions for the role
+//     await Rolepermission.destroy({ where: { RoleId: roleId } });
+
+//     // Create new permissions for the role
+//     for (const permission of permissions) {
+//       await Rolepermission.create({
+//         PermissionName: permission,
+//         RoleId: roleId,
+//       });
+//     }
+
+//     res.sendStatus(200);
+//   } catch (error) {
+//     console.error("Error updating user permissions:", error);
+//     res.status(500).send("Error updating user permissions.");
+//   }
+// });
+
+
+
+
+// app.post("/api/userpermission/:roleId", async (req, res) => {
+//   const { roleId } = req.params;
+//   const { PermissionName } = req.body;
+//   try {
+//     await Rolepermission.update({ PermissionName }, { where: { RoleId: roleId } });
+//     const updatedPermission = await Rolepermission.findByPk(id);
+//     res.json(updatedPermission);
+//   } catch (error) {
+//     console.error("Error updating user permission:", error);
+//     res.status(500).send("Error updating user permission.");
+//   }
+// });
+
+
+
+
+
+
 // Accessing Role model
 Role.findAll()
   .then(roles => {
