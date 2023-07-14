@@ -54,12 +54,10 @@ const Rolesave = () => {
             const permissionUrl = id ?
                 `http://localhost:5000/api/userpermission/${id}` :
                 'http://localhost:5000/api/userpermission';
-            const roleMethod = id ? "POST" : "POST";
-            const permissionMethod = "POST";
 
 
             const roleResponse = await fetch(roleUrl, {
-                method: roleMethod,
+                method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -67,10 +65,11 @@ const Rolesave = () => {
             });
 
             const roleData = await roleResponse.json();
+            console.log("RoleData", roleData);
 
 
             const permissionResponse = await fetch(permissionUrl, {
-                method: permissionMethod,
+                method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -80,10 +79,8 @@ const Rolesave = () => {
                 }),
             });
 
-            const permissionData = await permissionResponse.json();
-            console.log("Permission Data:", permissionData);
-
-            console.log("Nirali:", roleData);
+            // const permissionData = await permissionResponse.json();
+            // console.log("Permission Data:", permissionData);
             navigate(`/role`);
         } catch (error) {
             console.log(error);
@@ -162,10 +159,7 @@ const Rolesave = () => {
                     }
                 />
                 State_add_edit
-
-
                 <div>
-                    {" "}
                     <button type="submit" className="add-template-button2">
                         {id ? "Save Changes" : "Submit"}
                     </button>

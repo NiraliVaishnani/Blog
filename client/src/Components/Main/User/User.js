@@ -16,14 +16,34 @@ const User = () => {
         fetchProfiles();
     }, []);
 
+    // const fetchProfiles = () => {
+    //     fetch('http://localhost:5000/api/userprofile')
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             setProfiles(data);
+    //         })
+    //         .catch(error => {
+    //             console.log(error)
+
+    //         });
+    // };
+
+
     const fetchProfiles = () => {
         fetch('http://localhost:5000/api/userprofile')
             .then(response => response.json())
             .then(data => {
-                setProfiles(data);
+                if (Array.isArray(data)) {
+                    setProfiles(data);
+                } else {
+                    setProfiles([data]); // Convert the profile object to an array
+                }
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error);
+            });
     };
+
 
     const handleResetPassword = (email) => {
 
@@ -75,20 +95,18 @@ const User = () => {
                                 <td>{profile.email}</td>
                                 <td>{profile.password}</td>
                                 <td>{profile.rolename}</td>
-                                <td>
+                                {/* <td className="abc" style={display:"flex"}> */}
+                                <td className="abc" style={{ display: "flex" }}>
                                     <Link to={`/user/${profile.id}/edit`}>
                                         <FontAwesomeIcon className="editButton" icon={faPenToSquare} />
                                     </Link>
                                     <Userdelete id={profile.id} fetchProfiles={fetchProfiles} />
 
-                                    {/* 
-                                    <button className="resetButton"  onClick={() => setIsPopupOpen(true)}>Reset Password</button> */}
+
                                     <button className="resetButton" onClick={() => {
                                         setSelectedProfileEmail(profile.email);
                                         setIsPopupOpen(true);
                                     }}>Reset Password</button>
-                                    {/* <button className="resetButton" onClick={() => handleResetPassword(profile.email)}>Reset Password</button> */}
-
                                 </td>
                             </tr>
                         ))}

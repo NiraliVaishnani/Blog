@@ -16,6 +16,7 @@ const multer = require("multer");
 app.use(express.static("public"));
 const nodemailer = require("nodemailer");
 const Role = require('./models/roles')
+const Register = require('./models/register');
 
 const emailTemplateRoutes = require("./routes/emailTemplateRoutes");
 const settingRoutes = require("./routes/settingRoutes.js");
@@ -105,19 +106,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// app.get('/api/blog', async (req, res) => {
-//     const sql = await Blog.findAll({
-//         attributes: [
-//             'id',
-//             'title',
-//             [sequelize.fn('DATE_FORMAT', sequelize.col('createdAt'), '%d-%m-%Y'), 'createdAt'],
-//             'description', 'image'
 
-//         ],
-
-//     });
-//     res.json(sql);
-// })
 const { Op } = require("sequelize");
 
 app.get("/api/blog", async (req, res) => {
@@ -211,18 +200,7 @@ app.post("/api/blog", upload.single("image"), async (req, res) => {
   }
 });
 
-// app.post('/api/blog', async (req, res) => {
-//     const { title, description } = req.body;
 
-//     try {
-//         const sql = await Blog.create({ title, description });
-//         res.json(sql);
-
-//     }
-//     catch (err) {
-//         console.log(err)
-//     }
-// });
 
 app.get("/api/blog/:id", async (req, res) => {
   const sql = await Blog.findByPk(req.params.id);
@@ -373,7 +351,7 @@ const Rolepermission = sequelize.define(
 
 app.post("/api/userpermission", async (req, res) => {
   const { permissions, RoleId } = req.body;
-  console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
   try {
     // Create new permissions for the role
     for (const permission of permissions) {
@@ -398,7 +376,6 @@ app.post("/api/userpermission/:roleId", async (req, res) => {
   try {
 
     try {// Delete existing permissions for the role
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>ddffd");
       const deleted = await Rolepermission.destroy({ where: { RoleId: roleId } });
       console.log("Delete", deleted)
     } catch (e) {
@@ -438,74 +415,6 @@ app.get("/api/userpermission/:roleId", async (req, res) => {
 });
 
 
-// Update UserPermission by RoleId
-// app.post("/api/userpermission/:roleId", async (req, res) => {
-//   const { roleId } = req.params;
-//   const { permissions } = req.body;
-
-//   try {
-//     // Delete existing permissions for the role
-//     await Rolepermission.destroy({ where: { RoleId: roleId } });
-
-//     // Create new permissions for the role
-//     for (const permission of permissions) {
-//       await Rolepermission.create({
-//         PermissionName: permission,
-//         RoleId: roleId,
-//       });
-//     }
-
-//     res.sendStatus(200);
-//   } catch (error) {
-//     console.error("Error updating user permissions:", error);
-//     res.status(500).send("Error updating user permissions.");
-//   }
-// });
-
-// // Update UserPermission by RoleId
-// app.post("/api/userpermission/:roleId", async (req, res) => {
-//   const { roleId } = req.params;
-//   let { permissions } = req.body;
-
-//   // Ensure permissions is an array
-//   permissions = Array.isArray(permissions) ? permissions : [];
-
-//   try {
-//     // Delete existing permissions for the role
-//     await Rolepermission.destroy({ where: { RoleId: roleId } });
-
-//     // Create new permissions for the role
-//     for (const permission of permissions) {
-//       await Rolepermission.create({
-//         PermissionName: permission,
-//         RoleId: roleId,
-//       });
-//     }
-
-//     res.sendStatus(200);
-//   } catch (error) {
-//     console.error("Error updating user permissions:", error);
-//     res.status(500).send("Error updating user permissions.");
-//   }
-// });
-
-
-
-
-// app.post("/api/userpermission/:roleId", async (req, res) => {
-//   const { roleId } = req.params;
-//   const { PermissionName } = req.body;
-//   try {
-//     await Rolepermission.update({ PermissionName }, { where: { RoleId: roleId } });
-//     const updatedPermission = await Rolepermission.findByPk(id);
-//     res.json(updatedPermission);
-//   } catch (error) {
-//     console.error("Error updating user permission:", error);
-//     res.status(500).send("Error updating user permission.");
-//   }
-// });
-
-
 
 
 
@@ -513,11 +422,22 @@ app.get("/api/userpermission/:roleId", async (req, res) => {
 // Accessing Role model
 Role.findAll()
   .then(roles => {
-    console.log('Roles:', roles);
+    // console.log('Roles:', roles);
   })
   .catch(error => {
     console.error('Error fetching Roles:', error);
   });
+
+
+// Accessing Register model
+Register.findAll()
+  .then(roles => {
+    // console.log('Roles:', roles);
+  })
+  .catch(error => {
+    console.error('Error fetching Roles:', error);
+  });
+
 
 const UserProfile = sequelize.define(
   "UserProfile",
@@ -534,13 +454,19 @@ const UserProfile = sequelize.define(
     password: Sequelize.STRING,
     resetToken: Sequelize.STRING,
     rolename: Sequelize.STRING,
+    registerId: Sequelize.STRING,
   },
   {
     tableName: "UserProfile",
   }
 );
+module.exports = { UserProfile };
+
 
 UserProfile.belongsTo(Role, { foreignKey: "rolename" })
+Register.hasOne(UserProfile, { foriegnKey: "email" })
+UserProfile.belongsTo(Role, { foreignKey: "email" })
+
 
 Country.hasMany(State, { foreignKey: "countryId" });
 State.belongsTo(Country, { foreignKey: "countryId" });
@@ -782,15 +708,87 @@ app.get("/api/userprofile", async (req, res) => {
   }
 });
 
+// app.get("/api/userprofile/:id", async (req, res) => {
+//   const profiles = await UserProfile.findAll({
+//     where: { id: req.params.id },
+//   });
+//   res.json(profiles[0]);
+// });
+
+
+// app.get("/api/userprofile/:id", async (req, res) => {
+//   const profiles = await UserProfile.findAll({
+//     where: { id: req.params.id },
+//   });
+//   res.json(profiles); // Send the entire profiles array as the API response
+// });
 app.get("/api/userprofile/:id", async (req, res) => {
-  const profiles = await UserProfile.findAll({
-    where: { id: req.params.id },
-  });
-  res.json(profiles[0]);
+  const profile = await UserProfile.findByPk(req.params.id);
+  if (profile) {
+    res.json(profile);
+  } else {
+    res.status(404).json({ error: "Profile not found" });
+  }
 });
 
+
+
+// app.post("/api/userprofile", async (req, res) => {
+//   const { firstname, lastname, gender, email, password, rolename } = req.body;
+//   try {
+//     const newProfile = await UserProfile.create({
+//       firstname,
+//       lastname,
+//       gender,
+//       email,
+//       password,
+//       rolename
+//     });
+//     res.status(201).json(newProfile);
+//   } catch (error) {
+//     console.error("Error creating profile:", error);
+//   }
+// });
+
+
+// app.post("/api/userprofile", async (req, res) => {
+//   const { firstname, lastname, gender, email, password, rolename } = req.body;
+//   try {
+//     const newProfile = await UserProfile.create({
+//       firstname,
+//       lastname,
+//       gender,
+//       email,
+//       password,
+//       rolename, registerId,
+//     });
+//     res.status(201).json(newProfile);
+//   } catch (error) {
+//     console.error("Error creating profile:", error);
+//   }
+// });
+
+// app.post("/api/userprofile/:id", async (req, res) => {
+//   const { id } = req.params;
+//   const { firstname, lastname, gender, email, password, name, rolename } = req.body;
+//   try {
+//     const updateValues = { firstname, lastname, gender, email, name, rolename };
+//     if (password) {
+//       updateValues.password = password;
+//     }
+//     await UserProfile.update(updateValues, { where: { id } });
+//     const updatedProfile = await UserProfile.findByPk(id);
+//     res.json(updatedProfile);
+//   } catch (error) {
+//     console.error("Error updating profile:", error);
+//     res.status(500).send("Error updating profile.");
+//   }
+// });
+
+
+
 app.post("/api/userprofile", async (req, res) => {
-  const { firstname, lastname, gender, email, password, rolename } = req.body;
+  const { firstname, lastname, gender, email, password, rolename, registerId } = req.body; // Include registerId
   try {
     const newProfile = await UserProfile.create({
       firstname,
@@ -798,7 +796,8 @@ app.post("/api/userprofile", async (req, res) => {
       gender,
       email,
       password,
-      rolename
+      rolename,
+      registerId, // Assign registerId value
     });
     res.status(201).json(newProfile);
   } catch (error) {
@@ -808,9 +807,9 @@ app.post("/api/userprofile", async (req, res) => {
 
 app.post("/api/userprofile/:id", async (req, res) => {
   const { id } = req.params;
-  const { firstname, lastname, gender, email, password, name, rolename } = req.body;
+  const { firstname, lastname, gender, email, password, name, rolename, registerId } = req.body; // Include registerId
   try {
-    const updateValues = { firstname, lastname, gender, email, name, rolename };
+    const updateValues = { firstname, lastname, gender, email, name, rolename, registerId }; // Assign registerId value
     if (password) {
       updateValues.password = password;
     }
@@ -822,6 +821,8 @@ app.post("/api/userprofile/:id", async (req, res) => {
     res.status(500).send("Error updating profile.");
   }
 });
+
+
 
 // Delete a profile
 app.delete("/api/userprofile/:id", async (req, res) => {
