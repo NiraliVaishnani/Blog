@@ -15,15 +15,16 @@ app.use(bodyParser.json());
 const multer = require("multer");
 app.use(express.static("public"));
 const nodemailer = require("nodemailer");
-const Role = require('./models/roles')
-const Register = require('./models/register');
-
+const Role = require("./models/roles");
+const Register = require("./models/register");
+const Country = require("./models/Country");
+const UserProfile = require("./models/UserProfile");
+const City = require("./models/City");
+const State = require("./models/State");
 const emailTemplateRoutes = require("./routes/emailTemplateRoutes");
 const settingRoutes = require("./routes/settingRoutes.js");
 const roleRoutes = require("./routes/rolesRoutes.js");
 const registerRoutes = require("./routes/registerRoutes.js");
-
-
 
 const connection = mysql.createConnection({
   host: "40.114.69.227",
@@ -54,13 +55,10 @@ sequelize
     console.error("Unable to connect to the database:", err);
   });
 
-
-
 app.use("/api", emailTemplateRoutes);
 app.use("/api", settingRoutes);
 app.use("/api", roleRoutes);
 app.use("/api/account", registerRoutes);
-
 
 const Blog = sequelize.define(
   "blog",
@@ -88,9 +86,6 @@ Blog.sequelize.sync().then(() => {
   console.log("yes re sync");
 });
 
-
-
-
 const path = require("path");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -105,7 +100,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
 
 const { Op } = require("sequelize");
 
@@ -151,8 +145,6 @@ app.get("/api/blog", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-
 
 app.get("/api/blog/search", async (req, res) => {
   const { title } = req.query; // Get the title query parameter
@@ -200,8 +192,6 @@ app.post("/api/blog", upload.single("image"), async (req, res) => {
   }
 });
 
-
-
 app.get("/api/blog/:id", async (req, res) => {
   const sql = await Blog.findByPk(req.params.id);
   res.json(sql);
@@ -222,7 +212,6 @@ app.post("/api/blog/:id", upload.single("image"), async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-
 });
 
 app.delete("/api/blog/:id", async (req, res) => {
@@ -234,7 +223,6 @@ app.delete("/api/blog/:id", async (req, res) => {
     res.json("Error");
   }
 });
-
 
 app.post("/api/account/login", async (req, res) => {
   const { email, password } = req.body;
@@ -286,51 +274,50 @@ app.post("/api/account/profile", verifyToken, (req, res) => {
   });
 });
 
-const Country = sequelize.define(
-  "Country",
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    name: Sequelize.STRING,
-  },
-  {
-    tableName: "UserCountry",
-  }
-);
+// const Country = sequelize.define(
+//   "Country",
+//   {
+//     id: {
+//       type: Sequelize.INTEGER,
+//       primaryKey: true,
+//       autoIncrement: true,
+//     },
+//     name: Sequelize.STRING,
+//   },
+//   {
+//     tableName: "UserCountry",
+//   }
+// );
 
-const State = sequelize.define(
-  "State",
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    name: Sequelize.STRING,
-  },
-  {
-    tableName: "UserState",
-  }
-);
+// const State = sequelize.define(
+//   "State",
+//   {
+//     id: {
+//       type: Sequelize.INTEGER,
+//       primaryKey: true,
+//       autoIncrement: true,
+//     },
+//     name: Sequelize.STRING,
+//   },
+//   {
+//     tableName: "UserState",
+//   }
+// );
 
-const City = sequelize.define(
-  "City",
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    name: Sequelize.STRING,
-  },
-  {
-    tableName: "UserCity",
-  }
-);
-
+// const City = sequelize.define(
+//   "City",
+//   {
+//     id: {
+//       type: Sequelize.INTEGER,
+//       primaryKey: true,
+//       autoIncrement: true,
+//     },
+//     name: Sequelize.STRING,
+//   },
+//   {
+//     tableName: "UserCity",
+//   }
+// );
 
 const Rolepermission = sequelize.define(
   "UserPermission",
@@ -347,7 +334,6 @@ const Rolepermission = sequelize.define(
     tableName: "UserPermission",
   }
 );
-
 
 app.post("/api/userpermission", async (req, res) => {
   const { permissions, RoleId } = req.body;
@@ -368,16 +354,16 @@ app.post("/api/userpermission", async (req, res) => {
   }
 });
 
-
-
 app.post("/api/userpermission/:roleId", async (req, res) => {
   const { roleId } = req.params;
   const { permissions } = req.body;
   try {
-
-    try {// Delete existing permissions for the role
-      const deleted = await Rolepermission.destroy({ where: { RoleId: roleId } });
-      console.log("Delete", deleted)
+    try {
+      // Delete existing permissions for the role
+      const deleted = await Rolepermission.destroy({
+        where: { RoleId: roleId },
+      });
+      console.log("Delete", deleted);
     } catch (e) {
       console.log("Error deleting permissions");
     }
@@ -397,9 +383,6 @@ app.post("/api/userpermission/:roleId", async (req, res) => {
   }
 });
 
-
-
-
 // GET UserPermission by RoleId
 app.get("/api/userpermission/:roleId", async (req, res) => {
   const { roleId } = req.params;
@@ -414,59 +397,50 @@ app.get("/api/userpermission/:roleId", async (req, res) => {
   }
 });
 
-
-
-
-
-
 // Accessing Role model
 Role.findAll()
-  .then(roles => {
+  .then((roles) => {
     // console.log('Roles:', roles);
   })
-  .catch(error => {
-    console.error('Error fetching Roles:', error);
+  .catch((error) => {
+    console.error("Error fetching Roles:", error);
   });
-
 
 // Accessing Register model
 Register.findAll()
-  .then(roles => {
+  .then((roles) => {
     // console.log('Roles:', roles);
   })
-  .catch(error => {
-    console.error('Error fetching Roles:', error);
+  .catch((error) => {
+    console.error("Error fetching Roles:", error);
   });
 
+// const UserProfile = sequelize.define(
+//   "UserProfile",
+//   {
+//     id: {
+//       type: Sequelize.INTEGER,
+//       primaryKey: true,
+//       autoIncrement: true,
+//     },
+//     firstname: Sequelize.STRING,
+//     lastname: Sequelize.STRING,
+//     gender: Sequelize.STRING,
+//     email: Sequelize.STRING,
+//     password: Sequelize.STRING,
+//     resetToken: Sequelize.STRING,
+//     rolename: Sequelize.STRING,
+//     registerId: Sequelize.STRING,
+//   },
+//   {
+//     tableName: "UserProfile",
+//   }
+// );
+// module.exports = { UserProfile };
 
-const UserProfile = sequelize.define(
-  "UserProfile",
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    firstname: Sequelize.STRING,
-    lastname: Sequelize.STRING,
-    gender: Sequelize.STRING,
-    email: Sequelize.STRING,
-    password: Sequelize.STRING,
-    resetToken: Sequelize.STRING,
-    rolename: Sequelize.STRING,
-    registerId: Sequelize.STRING,
-  },
-  {
-    tableName: "UserProfile",
-  }
-);
-module.exports = { UserProfile };
-
-
-UserProfile.belongsTo(Role, { foreignKey: "rolename" })
-Register.hasOne(UserProfile, { foriegnKey: "email" })
-UserProfile.belongsTo(Role, { foreignKey: "email" })
-
+UserProfile.belongsTo(Role, { foreignKey: "rolename" });
+Register.hasOne(UserProfile, { foriegnKey: "email" });
+UserProfile.belongsTo(Role, { foreignKey: "email" });
 
 Country.hasMany(State, { foreignKey: "countryId" });
 State.belongsTo(Country, { foreignKey: "countryId" });
@@ -496,7 +470,6 @@ app.get("/api/address/city/:stateId", async (req, res) => {
   });
   res.json(cities);
 });
-
 
 // API endpoint to handle form submission
 app.post("/api/address/submit", async (req, res) => {
@@ -594,8 +567,6 @@ app.get("/api/state/:id", async (req, res) => {
     res.json(state);
   }
 });
-
-
 
 app.post("/api/state", async (req, res) => {
   const { name, countryId } = req.body; // Add countryId to the destructured object
@@ -715,7 +686,6 @@ app.get("/api/userprofile", async (req, res) => {
 //   res.json(profiles[0]);
 // });
 
-
 // app.get("/api/userprofile/:id", async (req, res) => {
 //   const profiles = await UserProfile.findAll({
 //     where: { id: req.params.id },
@@ -730,8 +700,6 @@ app.get("/api/userprofile/:id", async (req, res) => {
     res.status(404).json({ error: "Profile not found" });
   }
 });
-
-
 
 // app.post("/api/userprofile", async (req, res) => {
 //   const { firstname, lastname, gender, email, password, rolename } = req.body;
@@ -749,7 +717,6 @@ app.get("/api/userprofile/:id", async (req, res) => {
 //     console.error("Error creating profile:", error);
 //   }
 // });
-
 
 // app.post("/api/userprofile", async (req, res) => {
 //   const { firstname, lastname, gender, email, password, rolename } = req.body;
@@ -785,10 +752,9 @@ app.get("/api/userprofile/:id", async (req, res) => {
 //   }
 // });
 
-
-
 app.post("/api/userprofile", async (req, res) => {
-  const { firstname, lastname, gender, email, password, rolename, registerId } = req.body; // Include registerId
+  const { firstname, lastname, gender, email, password, rolename, registerId } =
+    req.body; // Include registerId
   try {
     const newProfile = await UserProfile.create({
       firstname,
@@ -807,9 +773,26 @@ app.post("/api/userprofile", async (req, res) => {
 
 app.post("/api/userprofile/:id", async (req, res) => {
   const { id } = req.params;
-  const { firstname, lastname, gender, email, password, name, rolename, registerId } = req.body; // Include registerId
+  const {
+    firstname,
+    lastname,
+    gender,
+    email,
+    password,
+    name,
+    rolename,
+    registerId,
+  } = req.body; // Include registerId
   try {
-    const updateValues = { firstname, lastname, gender, email, name, rolename, registerId }; // Assign registerId value
+    const updateValues = {
+      firstname,
+      lastname,
+      gender,
+      email,
+      name,
+      rolename,
+      registerId,
+    }; // Assign registerId value
     if (password) {
       updateValues.password = password;
     }
@@ -821,8 +804,6 @@ app.post("/api/userprofile/:id", async (req, res) => {
     res.status(500).send("Error updating profile.");
   }
 });
-
-
 
 // Delete a profile
 app.delete("/api/userprofile/:id", async (req, res) => {
@@ -897,7 +878,6 @@ app.post("/userprofile/reset-password/:resetToken", async (req, res) => {
     const user = await UserProfile.findOne({
       where: {
         resetToken,
-
       },
     });
 
@@ -918,6 +898,5 @@ app.post("/userprofile/reset-password/:resetToken", async (req, res) => {
       .json({ error: "An error occurred while resetting password" });
   }
 });
-
 
 app.listen(5000);
