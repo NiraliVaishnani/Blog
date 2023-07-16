@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "../../css/Auth/Register.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Popup from "reactjs-popup";
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -42,22 +41,6 @@ function Register() {
     }
   };
 
-  const handleResetPassword = (email) => {
-    fetch("http://localhost:5000/api/reset-password", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response from the server
-        console.log("Password reset request sent");
-      })
-      .catch((error) => console.log(error));
-  };
-
   return (
     <div className="login">
       <div className="center_login">
@@ -89,9 +72,6 @@ function Register() {
         <button onClick={handleRegister}>Register</button>
         <Link to="/">
           <h5>Back to home</h5>
-        </Link>
-        <Link>
-          <h5 onClick={() => handleResetPassword(email)}>Forgot Password</h5>
         </Link>
       </div>
     </div>
