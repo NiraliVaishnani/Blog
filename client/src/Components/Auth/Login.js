@@ -3,10 +3,12 @@ import Cookies from "js-cookie";
 import "../../css/Auth/Login.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Popup from "reactjs-popup";
 
 function Login() {
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigate = useNavigate();
   const handleLogin = async () => {
     try {
@@ -74,9 +76,22 @@ function Login() {
             <h5>Back to home</h5>
           </Link>
           <Link>
-            <h5 onClick={() => handleResetPassword(email)}>Forgot Password</h5>
+            <h5 onClick={() => setIsPopupOpen(true)}>Forgot Password</h5>
           </Link>
         </div>
+        <Popup
+          open={isPopupOpen}
+          closeOnDocumentClick
+          onClose={() => setIsPopupOpen(false)}
+        >
+          <div className="popup-content">
+            <h2>Reset Password</h2>
+            <h5>Are you sure u want to reset password??</h5>
+            <button onClick={() => handleResetPassword(email)}>
+              Confirm
+            </button>
+          </div>
+        </Popup>
       </div>
     </>
   );

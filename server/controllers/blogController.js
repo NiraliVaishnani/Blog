@@ -1,4 +1,5 @@
 const Blog = require("../models/Blog");
+
 const { Sequelize } = require("sequelize");
 const sequelize = new Sequelize(
   "dotnet_SumitM",

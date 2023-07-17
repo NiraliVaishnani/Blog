@@ -1,6 +1,7 @@
 const Register = require("../models/register");
 const UserProfile = require("../models/UserProfile");
-const Rolepermission = require("../server");
+const UserPermissionModule = require("../server");
+
 
 exports.getAllRegisteredUser = async (req, res) => {
   const sql = await Register.findAll();
@@ -24,10 +25,9 @@ exports.createRegister = async (req, res) => {
   }
 };
 
-// Rolepermission.findAll()
-//   .then((roles) => {
-//     console.log("Rolepermission,,,,,,5434543543545454554554");
+// UserPermissionModule.Country.findAll()
+//   .then((res) => {
+//     console.log('asdfasdfasdfasfdadfa');
+//   }).catch((error) => {
+//     console.log(error);
 //   })
-//   .catch((error) => {
-//     console.error("Error fetching:", error);
-//   });

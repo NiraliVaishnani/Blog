@@ -17,14 +17,15 @@ app.use(express.static("public"));
 const nodemailer = require("nodemailer");
 const Role = require("./models/roles");
 const Register = require("./models/register");
-const Country = require("./models/Country");
-const UserProfile = require("./models/UserProfile");
+//const Country = require("./models/Country");
 const City = require("./models/City");
 const State = require("./models/State");
 const Blog = require("./models/Blog");
+const UserProfile = require("./models/UserProfile")
 const emailTemplateRoutes = require("./routes/emailTemplateRoutes");
 const settingRoutes = require("./routes/settingRoutes.js");
 const roleRoutes = require("./routes/rolesRoutes.js");
+
 const registerRoutes = require("./routes/registerRoutes.js");
 const countryRoutes = require("./routes/countryRoutes");
 const stateRoutes = require("./routes/stateRoutes");
@@ -41,6 +42,14 @@ connection.connect(function (err) {
   if (err) throw err;
   console.log("Connection Successfull.......");
 });
+
+
+
+
+
+
+
+
 const sequelize = new Sequelize(
   "dotnet_SumitM",
   "dotnet_SumitM",
@@ -154,8 +163,29 @@ const Rolepermission = sequelize.define(
   {
     tableName: "UserPermission",
   }
+
 );
-module.exports = Rolepermission;
+
+
+
+
+const Country = sequelize.define(
+  "Country",
+  {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    name: Sequelize.STRING,
+  },
+  {
+    tableName: "UserCountry",
+  }
+);
+//exports.Country = Country;
+
+
 
 app.post("/api/userpermission", async (req, res) => {
   const { permissions, RoleId } = req.body;
@@ -222,8 +252,6 @@ app.get("/api/userpermission/:roleId", async (req, res) => {
 // Accessing Role model
 
 UserProfile.belongsTo(Role, { foreignKey: "rolename" });
-// Register.hasOne(UserProfile, { foriegnKey: "email" });
-// UserProfile.belongsTo(Role, { foreignKey: "email" });
 Register.hasOne(UserProfile, { foreignKey: "registerId" });
 UserProfile.belongsTo(Register, { foreignKey: "registerId" });
 // Add this code after defining the associations
@@ -262,12 +290,6 @@ app.get("/api/userprofile", async (req, res) => {
 //   res.json(profiles[0]);
 // });
 
-// app.get("/api/userprofile/:id", async (req, res) => {
-//   const profiles = await UserProfile.findAll({
-//     where: { id: req.params.id },
-//   });
-//   res.json(profiles); // Send the entire profiles array as the API response
-// });
 app.get("/api/userprofile/:id", async (req, res) => {
   const profile = await UserProfile.findByPk(req.params.id);
   if (profile) {
@@ -277,56 +299,6 @@ app.get("/api/userprofile/:id", async (req, res) => {
   }
 });
 
-// app.post("/api/userprofile", async (req, res) => {
-//   const { firstname, lastname, gender, email, password, rolename } = req.body;
-//   try {
-//     const newProfile = await UserProfile.create({
-//       firstname,
-//       lastname,
-//       gender,
-//       email,
-//       password,
-//       rolename
-//     });
-//     res.status(201).json(newProfile);
-//   } catch (error) {
-//     console.error("Error creating profile:", error);
-//   }
-// });
-
-// app.post("/api/userprofile", async (req, res) => {
-//   const { firstname, lastname, gender, email, password, rolename } = req.body;
-//   try {
-//     const newProfile = await UserProfile.create({
-//       firstname,
-//       lastname,
-//       gender,
-//       email,
-//       password,
-//       rolename, registerId,
-//     });
-//     res.status(201).json(newProfile);
-//   } catch (error) {
-//     console.error("Error creating profile:", error);
-//   }
-// });
-
-// app.post("/api/userprofile/:id", async (req, res) => {
-//   const { id } = req.params;
-//   const { firstname, lastname, gender, email, password, name, rolename } = req.body;
-//   try {
-//     const updateValues = { firstname, lastname, gender, email, name, rolename };
-//     if (password) {
-//       updateValues.password = password;
-//     }
-//     await UserProfile.update(updateValues, { where: { id } });
-//     const updatedProfile = await UserProfile.findByPk(id);
-//     res.json(updatedProfile);
-//   } catch (error) {
-//     console.error("Error updating profile:", error);
-//     res.status(500).send("Error updating profile.");
-//   }
-// });
 
 app.post("/api/userprofile", async (req, res) => {
   const { firstname, lastname, gender, email, password, rolename, registerId } =
@@ -457,14 +429,23 @@ app.post("/userprofile/reset-password/:resetToken", async (req, res) => {
       },
     });
 
+
     if (!user) {
       return res.status(400).json({ error: "Invalid or expired reset token" });
     }
 
+
+
     // Update the user's password and clear the reset token
     user.password = newPassword;
+
     user.resetToken = null;
     await user.save();
+
+    await Register.update(
+      { password: newPassword },
+      { where: { id: user.registerId } }
+    );
 
     res.status(200).json({ message: "Password reset successful" });
   } catch (error) {

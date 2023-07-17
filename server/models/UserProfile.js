@@ -31,3 +31,4 @@ const UserProfile = sequelize.define(
   }
 );
 module.exports = UserProfile;
+
