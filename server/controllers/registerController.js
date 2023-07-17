@@ -6,6 +6,7 @@ const UserPermissionModule = require("../server");
 exports.getAllRegisteredUser = async (req, res) => {
   const sql = await Register.findAll();
   const registered = await UserProfile.findAll();
+  
   res.json(sql);
 };
 

@@ -17,7 +17,7 @@ app.use(express.static("public"));
 const nodemailer = require("nodemailer");
 const Role = require("./models/roles");
 const Register = require("./models/register");
-//const Country = require("./models/Country");
+const Country = require("./models/Country");
 const City = require("./models/City");
 const State = require("./models/State");
 const Blog = require("./models/Blog");
@@ -169,21 +169,21 @@ const Rolepermission = sequelize.define(
 
 
 
-const Country = sequelize.define(
-  "Country",
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    name: Sequelize.STRING,
-  },
-  {
-    tableName: "UserCountry",
-  }
-);
-//exports.Country = Country;
+// const Country = sequelize.define(
+//   "Country",
+//   {
+//     id: {
+//       type: Sequelize.INTEGER,
+//       primaryKey: true,
+//       autoIncrement: true,
+//     },
+//     name: Sequelize.STRING,
+//   },
+//   {
+//     tableName: "UserCountry",
+//   }
+// );
+// exports.Country = Country;
 
 
 
