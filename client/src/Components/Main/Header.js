@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import '../../../src/css/Header.css';
 import { Link } from 'react-router-dom';
 import Logo from '../../images/logo3.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import PopupButton from './PopupButton';
 
+import { AppContext } from './AppContext';
 const Header = () => {
-    const [showDropdown, setShowDropdown] = useState(false);
+    // const [showDropdown, setShowDropdown] = useState(false);
 
-    const toggleDropdown = () => {
-        setShowDropdown(!showDropdown);
-    };
+    // const toggleDropdown = () => {
+    //     setShowDropdown(!showDropdown);
+    // };
+
+    const { showDropdown, toggleDropdown } = useContext(AppContext);
 
     return (
         <div>

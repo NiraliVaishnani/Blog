@@ -27,49 +27,52 @@ import UserSave from "./Components/Main/User/Usersave";
 import Rolesave from "./Components/Main/Role/Rolesave";
 import Role from "./Components/Main/Role/Role";
 import Resetpassword from "./Components/Main/User/Resetpassword";
+import { AppProvider } from "./Components/Main/AppContext";
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/account" element={<AuthLayout />}>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-        </Route>
-        <Route path="/" element={<Maincontent />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/blog/:id" element={<SingleBlog />} />
-          <Route path="/blog/:id/edit" element={<BlogForm />} />
-          <Route path="/addblog" element={<BlogForm />} />
-          <Route path="/email-template" element={<Emailtemplatelist />} />
-          <Route path="/email-template/add" element={<EmailTemplateForm />} />
-          <Route path="/email-template/:id/edit" element={<EmailTemplateForm />} />
-          <Route path="/setting" element={<Settinglist />}></Route>
-          <Route path="/setting/add" element={<SettingForm />} />
-          <Route path="/setting/:id/edit" element={<SettingForm />} />
-          <Route path="/Art" element={<Art />} />
-          <Route path="/science" element={<Science />} />
-          <Route path="/technology" element={<Technology />} />
-          <Route path="/cinema" element={<Cinema />} />
-          <Route path="/search/:title" element={<Search />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/country" element={<Country />} />
-          <Route path="/state" element={<State />} />
-          <Route path="/city" element={<City />} />
-          <Route path="/country/add" element={<Countrysave />} />
-          <Route path="/country/:id/edit" element={<Countrysave />} />
-          <Route path="/state/add" element={<Statesave />} />
-          <Route path="/state/:id/edit" element={<Statesave />} />
-          <Route path="/city/add" element={<Citysave />} />
-          <Route path="/city/:id/edit" element={<Citysave />} />
-          <Route path="/user/add" element={<UserSave />} />
-          <Route path="/user/:id/edit" element={<UserSave />} />
-          <Route path="/role" element={<Role />} />
-          <Route path="/role/add" element={<Rolesave />} />
-          <Route path="/role/:id/edit" element={<Rolesave />} />
-          <Route path="/userprofile/reset-password/:resetToken" element={<Resetpassword />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <AppProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/account" element={<AuthLayout />}>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+          </Route>
+          <Route path="/" element={<Maincontent />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/blog/:id" element={<SingleBlog />} />
+            <Route path="/blog/:id/edit" element={<BlogForm />} />
+            <Route path="/addblog" element={<BlogForm />} />
+            <Route path="/email-template" element={<Emailtemplatelist />} />
+            <Route path="/email-template/add" element={<EmailTemplateForm />} />
+            <Route path="/email-template/:id/edit" element={<EmailTemplateForm />} />
+            <Route path="/setting" element={<Settinglist />}></Route>
+            <Route path="/setting/add" element={<SettingForm />} />
+            <Route path="/setting/:id/edit" element={<SettingForm />} />
+            <Route path="/Art" element={<Art />} />
+            <Route path="/science" element={<Science />} />
+            <Route path="/technology" element={<Technology />} />
+            <Route path="/cinema" element={<Cinema />} />
+            <Route path="/search/:title" element={<Search />} />
+            <Route path="/user" element={<User />} />
+            <Route path="/country" element={<Country />} />
+            <Route path="/state" element={<State />} />
+            <Route path="/city" element={<City />} />
+            <Route path="/country/add" element={<Countrysave />} />
+            <Route path="/country/:id/edit" element={<Countrysave />} />
+            <Route path="/state/add" element={<Statesave />} />
+            <Route path="/state/:id/edit" element={<Statesave />} />
+            <Route path="/city/add" element={<Citysave />} />
+            <Route path="/city/:id/edit" element={<Citysave />} />
+            <Route path="/user/add" element={<UserSave />} />
+            <Route path="/user/:id/edit" element={<UserSave />} />
+            <Route path="/role" element={<Role />} />
+            <Route path="/role/add" element={<Rolesave />} />
+            <Route path="/role/:id/edit" element={<Rolesave />} />
+            <Route path="/userprofile/reset-password/:resetToken" element={<Resetpassword />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AppProvider>
   );
 }
 
