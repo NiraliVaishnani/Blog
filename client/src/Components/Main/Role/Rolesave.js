@@ -88,77 +88,87 @@ const Rolesave = () => {
     };
 
     return (
-        <div className="role-save-container">
+        <div className="role-save-container"  >
             <form onSubmit={handleSubmit}>
                 {id ? <h2>Edit Role</h2> : <h2>Add Role</h2>}
-                <label>Role Name</label>
-                <input
-                    type="text"
-                    value={roleName}
-                    onChange={(e) => setRoleName(e.target.value)}
-                />
+                <div style={{ padding: "10px" }}>
+                    <label>Role Name</label>
+                    <input
+                        type="text"
+                        value={roleName}
+                        onChange={(e) => setRoleName(e.target.value)}
+                    />
+                </div>
+                <div style={{ padding: "10px" }}>
+                    <label>Permissions</label>
+                    <label></label>
+                    <input
+                        type="checkbox"
+                        className="permissions"
+                        checked={permissions.includes("Blog_add")}
+                        onChange={(e) =>
+                            handleCheckboxChange("Blog_add", e.target.checked)
+                        }
+                    />
+                    BlogAdd
+                </div>
 
-                <label>Permissions</label>
+                <div style={{ padding: "10px" }}>
+                    <input
+                        type="checkbox"
+                        className="permissions"
+                        checked={permissions.includes("Blog_edit")}
+                        onChange={(e) =>
+                            handleCheckboxChange("Blog_edit", e.target.checked)
+                        }
+                    />
+                    BlogEdit
+                </div>
+                <div style={{ padding: "10px" }}>
+                    <input
+                        type="checkbox"
+                        className="permissions"
+                        checked={permissions.includes("Emailtemplte_add")}
+                        onChange={(e) =>
+                            handleCheckboxChange("Emailtemplte_add", e.target.checked)
+                        }
+                    />
+                    EmailtemplteAdd
+                </div>
+                <div style={{ padding: "10px" }}>
+                    <input
+                        type="checkbox"
+                        className="permissions"
+                        checked={permissions.includes("Emailtemplate_edit")}
+                        onChange={(e) =>
+                            handleCheckboxChange("Emailtemplate_edit", e.target.checked)
+                        }
+                    />
+                    EmailtemplateEdit
+                </div>
+                <div style={{ padding: "10px" }}>
+                    <input
+                        type="checkbox"
+                        className="permissions"
+                        checked={permissions.includes("Country_add_edit")}
+                        onChange={(e) =>
+                            handleCheckboxChange("Country_add_edit", e.target.checked)
+                        }
+                    />
+                    CountryAdd
+                </div>
+                <div style={{ padding: "10px" }}>
+                    <input
+                        type="checkbox"
+                        className="permissions"
+                        checked={permissions.includes("State_add_edit")}
+                        onChange={(e) =>
+                            handleCheckboxChange("State_add_edit", e.target.checked)
+                        }
+                    />
+                    StateAdd
+                </div>
 
-                <input
-                    type="checkbox"
-                    className="permissions"
-                    checked={permissions.includes("Blog_add")}
-                    onChange={(e) =>
-                        handleCheckboxChange("Blog_add", e.target.checked)
-                    }
-                />
-                Blog_add
-
-                <input
-                    type="checkbox"
-                    className="permissions"
-                    checked={permissions.includes("Blog_edit")}
-                    onChange={(e) =>
-                        handleCheckboxChange("Blog_edit", e.target.checked)
-                    }
-                />
-                Blog_edit
-
-                <input
-                    type="checkbox"
-                    className="permissions"
-                    checked={permissions.includes("Emailtemplte_add")}
-                    onChange={(e) =>
-                        handleCheckboxChange("Emailtemplte_add", e.target.checked)
-                    }
-                />
-                Emailtemplte_add
-
-                <input
-                    type="checkbox"
-                    className="permissions"
-                    checked={permissions.includes("Emailtemplate_edit")}
-                    onChange={(e) =>
-                        handleCheckboxChange("Emailtemplate_edit", e.target.checked)
-                    }
-                />
-                Emailtemplate_edit
-
-                <input
-                    type="checkbox"
-                    className="permissions"
-                    checked={permissions.includes("Country_add_edit")}
-                    onChange={(e) =>
-                        handleCheckboxChange("Country_add_edit", e.target.checked)
-                    }
-                />
-                Country_add_edit
-
-                <input
-                    type="checkbox"
-                    className="permissions"
-                    checked={permissions.includes("State_add_edit")}
-                    onChange={(e) =>
-                        handleCheckboxChange("State_add_edit", e.target.checked)
-                    }
-                />
-                State_add_edit
                 <div>
                     <button type="submit" className="add-template-button2">
                         {id ? "Save Changes" : "Submit"}

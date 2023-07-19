@@ -12,9 +12,7 @@ const Statesave = () => {
         if (id) {
             fetch(`http://localhost:5000/api/state/${id}`)
                 .then((response) => response.json())
-
                 .then((data) => {
-
                     setName(data.name);
                     setSelectedCountry(data.countryId);
                 })
@@ -49,6 +47,8 @@ const Statesave = () => {
             });
 
             if (response.ok) {
+
+
 
                 console.log('State saved successfully.');
                 navigate('/state');

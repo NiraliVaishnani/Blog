@@ -80,9 +80,6 @@ const Header = () => {
                                         <b>CITY</b>
                                     </h6>
                                 </Link>
-
-
-
                             </div>
                         )}
                     </div>

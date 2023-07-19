@@ -9,6 +9,8 @@ const crypto = require("crypto");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 const jwt = require("jsonwebtoken");
+const morgan = require('morgan');
+app.use(morgan('dev'));
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -42,12 +44,6 @@ connection.connect(function (err) {
   if (err) throw err;
   console.log("Connection Successfull.......");
 });
-
-
-
-
-
-
 
 
 const sequelize = new Sequelize(
@@ -165,26 +161,6 @@ const Rolepermission = sequelize.define(
   }
 
 );
-
-
-
-
-// const Country = sequelize.define(
-//   "Country",
-//   {
-//     id: {
-//       type: Sequelize.INTEGER,
-//       primaryKey: true,
-//       autoIncrement: true,
-//     },
-//     name: Sequelize.STRING,
-//   },
-//   {
-//     tableName: "UserCountry",
-//   }
-// );
-// exports.Country = Country;
-
 
 
 app.post("/api/userpermission", async (req, res) => {
@@ -434,11 +410,8 @@ app.post("/userprofile/reset-password/:resetToken", async (req, res) => {
       return res.status(400).json({ error: "Invalid or expired reset token" });
     }
 
-
-
     // Update the user's password and clear the reset token
     user.password = newPassword;
-
     user.resetToken = null;
     await user.save();
 
