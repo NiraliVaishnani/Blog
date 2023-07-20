@@ -10,7 +10,7 @@ function Login() {
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const { loggedInData } = useContext(TokenContext)
+  const { loggedInData } = useContext(TokenContext);
   const navigate = useNavigate();
   const handleLogin = async () => {
     try {
@@ -24,11 +24,13 @@ function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        const { token } = data;
+        const { token, username } = data;
         console.log("Token:", token);
+
+        console.log("Username:", username); // Add this line to check the username
         // Set the token in local storage
         // localStorage.setItem("logintoken", token);
-        localStorage.setItem("login-data", JSON.stringify({ token }));
+        localStorage.setItem("login-data", JSON.stringify({ token, username }));
         // Cookies.set("token", token);
         alert("Login successful");
         setemail("");
@@ -43,7 +45,6 @@ function Login() {
       console.log(err);
     }
   };
-
 
   const handleResetPassword = (email) => {
     fetch("http://localhost:5000/api/reset-password", {
@@ -94,9 +95,7 @@ function Login() {
           <div className="popup-content">
             <h2>Reset Password</h2>
             <h5>Are you sure u want to reset password??</h5>
-            <button onClick={() => handleResetPassword(email)}>
-              Confirm
-            </button>
+            <button onClick={() => handleResetPassword(email)}>Confirm</button>
           </div>
         </Popup>
       </div>

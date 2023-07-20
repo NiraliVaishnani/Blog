@@ -9,8 +9,8 @@ const crypto = require("crypto");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 const jwt = require("jsonwebtoken");
-const morgan = require('morgan');
-app.use(morgan('dev'));
+const morgan = require("morgan");
+app.use(morgan("dev"));
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -23,7 +23,7 @@ const Country = require("./models/Country");
 const City = require("./models/City");
 const State = require("./models/State");
 const Blog = require("./models/Blog");
-const UserProfile = require("./models/UserProfile")
+const UserProfile = require("./models/UserProfile");
 const emailTemplateRoutes = require("./routes/emailTemplateRoutes");
 const settingRoutes = require("./routes/settingRoutes.js");
 const roleRoutes = require("./routes/rolesRoutes.js");
@@ -44,7 +44,6 @@ connection.connect(function (err) {
   if (err) throw err;
   console.log("Connection Successfull.......");
 });
-
 
 const sequelize = new Sequelize(
   "dotnet_SumitM",
@@ -109,7 +108,11 @@ app.post("/api/account/login", async (req, res) => {
         const token = jwt.sign({ email }, "nirali");
         res.cookie("token", token);
         console.log(token);
-        res.status(200).json({ message: "Login successful", token }); // Include the token field in the response
+        res.status(200).json({
+          message: "Login successful",
+          token,
+          username: user.username,
+        }); // Include the token field in the response
       } else {
         res.json({ message: "Invalid password" });
       }
@@ -151,12 +154,10 @@ app.get("/api/account/get-username", verifyToken, async (req, res) => {
   }
 });
 
-
-app.get('/logout', (req, res) => {
-  res.clearCookie('Token');
+app.get("/logout", (req, res) => {
+  res.clearCookie("Token");
   res.send("successfully logged out");
 });
-
 
 app.post("/api/account/profile", verifyToken, (req, res) => {
   jwt.verify(req.token, "nirali", (err, authData) => {
@@ -185,9 +186,7 @@ const Rolepermission = sequelize.define(
   {
     tableName: "UserPermission",
   }
-
 );
-
 
 app.post("/api/userpermission", async (req, res) => {
   const { permissions, RoleId } = req.body;
@@ -300,7 +299,6 @@ app.get("/api/userprofile/:id", async (req, res) => {
     res.status(404).json({ error: "Profile not found" });
   }
 });
-
 
 app.post("/api/userprofile", async (req, res) => {
   const { firstname, lastname, gender, email, password, rolename, registerId } =
