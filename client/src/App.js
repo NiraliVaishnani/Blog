@@ -28,9 +28,11 @@ import Rolesave from "./Components/Main/Role/Rolesave";
 import Role from "./Components/Main/Role/Role";
 import Resetpassword from "./Components/Main/User/Resetpassword";
 import { AppProvider } from "./Components/Main/AppContext";
+import TokenContextProvider from "./Components/Main/TokenContext";
 function App() {
   return (
-    <AppProvider>
+
+    <TokenContextProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/account" element={<AuthLayout />}>
@@ -72,7 +74,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </AppProvider>
+    </TokenContextProvider>
   );
 }
 

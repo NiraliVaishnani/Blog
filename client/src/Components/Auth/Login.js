@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Cookies from "js-cookie";
 import "../../css/Auth/Login.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
+import { TokenContext } from "../Main/TokenContext";
 
 function Login() {
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const { loggedInData } = useContext(TokenContext)
   const navigate = useNavigate();
   const handleLogin = async () => {
     try {
@@ -24,10 +26,14 @@ function Login() {
         const data = await response.json();
         const { token } = data;
         console.log("Token:", token);
-        Cookies.set("token", token);
+        // Set the token in local storage
+        // localStorage.setItem("logintoken", token);
+        localStorage.setItem("login-data", JSON.stringify({ token }));
+        // Cookies.set("token", token);
         alert("Login successful");
         setemail("");
         setPassword("");
+        loggedInData(); // Call the loggedInData function to update the loggedInUser state
         navigate(`/`);
       } else {
         console.log("Login failed");
@@ -37,6 +43,7 @@ function Login() {
       console.log(err);
     }
   };
+
 
   const handleResetPassword = (email) => {
     fetch("http://localhost:5000/api/reset-password", {

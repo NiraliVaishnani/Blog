@@ -1,17 +1,42 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import '../../../src/css/Header.css';
 import { Link } from 'react-router-dom';
 import Logo from '../../images/logo3.png';
+import { useNavigate } from "react-router-dom";
+import { TokenContext } from './TokenContext';
 
-import { AppContext } from './AppContext';
 const Header = () => {
-    // const [showDropdown, setShowDropdown] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [username, setusername] = useState(null);
+    const { loggedInUser, logOut } = useContext(TokenContext)
+    const navigate = useNavigate();
 
-    // const toggleDropdown = () => {
-    //     setShowDropdown(!showDropdown);
-    // };
+    const toggleDropdown = () => {
+        setShowDropdown(!showDropdown);
+    };
 
-    const { showDropdown, toggleDropdown } = useContext(AppContext);
+    const handleLogout = () => {
+        console.log('logged out')
+        localStorage.removeItem('login-data');
+        logOut();
+        navigate('/logout');
+
+    };
+
+    const fetchUser = () => {
+        // Make the API call with the search term
+        fetch(`http://localhost:5000/api/account/get-username`)
+            .then((response) =>
+                response.json())
+            .then((data) => {
+                setusername(data.username);
+                console.log("Posts updated:", data.username);
+            })
+            .catch((error) => console.log(error));
+    };
+    useEffect(() => {
+        fetchUser();
+    }, []);
 
     return (
         <div>
@@ -29,8 +54,45 @@ const Header = () => {
                         <Link to="search/:title"><button><FontAwesomeIcon icon={faSearch} /></button></Link>
                     </div> */}
                     <div className="rightmenu"></div>
-                    <Link className="link" to="/account/register"><h6><b>REGISTER</b></h6></Link>
+                    {/* <Link className="link" to="/account/register"><h6><b>REGISTER</b></h6></Link>
                     <Link className="link" to="/account/login"><h6><b>LOGIN</b></h6></Link>
+                    <Link className="link" onClick={handleLogout}><h6><b>LOGOUT</b></h6></Link> */}
+                    {loggedInUser ? (
+                        <>
+                            <h4>hyy{username}</h4>
+
+                            <Link className="link" onClick={handleLogout}>
+                                <h6><b>LOGOUT</b></h6>
+                            </Link>
+                        </>
+                    ) : (
+                        <>
+                            <Link className="link" to="/account/register">
+                                <h6><b>REGISTER</b></h6>
+                            </Link>
+                            <Link className="link" to="/account/login">
+                                <h6><b>LOGIN</b></h6>
+                            </Link>
+                        </>
+                    )}
+                    {/* {loggedInUser ? (
+                        <h6>
+                            <b>{loggedInUser.username}</b>
+                        </h6>
+                    ) : (
+                        <>
+                            <Link className="link" to="/account/register">
+                                <h6>
+                                    <b>REGISTER</b>
+                                </h6>
+                            </Link>
+                            <Link className="link" to="/account/login">
+                                <h6>
+                                    <b>LOGIN</b>
+                                </h6>
+                            </Link>
+                        </>
+                    )} */}
                     <div className="dropdown">
                         <button onClick={toggleDropdown} className="link">
                             <h6>
