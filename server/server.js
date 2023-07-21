@@ -135,24 +135,6 @@ function verifyToken(req, res, next) {
     res.send({ result: "Token is not valid" });
   }
 }
-app.get("/api/account/get-username", verifyToken, async (req, res) => {
-  try {
-    const { email } = jwt.verify(req.token, "nirali");
-    const user = await Register.findOne({
-      where: {
-        email: email,
-      },
-    });
-    if (user) {
-      res.status(200).json({ username: user.username });
-    } else {
-      res.json({ message: "User not found" });
-    }
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
-  }
-});
 
 app.get("/logout", (req, res) => {
   res.clearCookie("Token");

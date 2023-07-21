@@ -6,7 +6,6 @@ function TokenContextProvider(props) {
     const [loggedInUser, setLoggedInUser] = useState(null); // Include loggedInUser state
     const logOut = () => {
         localStorage.removeItem('login-data');
-        console.log(localStorage.getItem('login-data'))
         setLoggedInUser(null); // Update loggedInUser to null on logout
     }
     // const loggedInData = () => {
