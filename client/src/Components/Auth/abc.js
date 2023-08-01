@@ -19,6 +19,24 @@ const Rolesave = () => {
     }
   }, [id]);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (id) {
+  //       try {
+  //         const response = await fetch(`http://localhost:5000/api/userrole/${id}`);
+  //         const data = await response.json();
+  //         setRoleName(data.rolename);
+  //         setPermissionNames(data.permissionNames);
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [id]);
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -104,4 +122,5 @@ const Rolesave = () => {
 };
 
 export default Rolesave;
+
 
