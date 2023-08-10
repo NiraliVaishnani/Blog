@@ -3,25 +3,39 @@ import '../../../css/Blog/SingleBlog.css'
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import DeleteBlog from './DeleteBlog';
-
+import axios from 'axios'; // Import axios
 
 const SingleBlog = () => {
     const [post, setPost] = useState(null);
     const { id } = useParams();
 
 
-    useEffect(() => {
-        const fetchData = () => {
+    // useEffect(() => {
+    //     const fetchData = () => {
 
-            fetch(`http://localhost:5000/api/blog/${id}`)
-                .then(response => response.json())
-                .then(data => {
-                    setPost(data);
-                })
-                .catch(error => console.log(error));
-        }
+    //         fetch(`http://localhost:5000/api/blog/${id}`)
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 setPost(data);
+    //             })
+    //             .catch(error => console.log(error));
+    //     }
+    //     fetchData();
+    // }, [id]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/api/blog/${id}`);
+                const data = response.data;
+                setPost(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
         fetchData();
     }, [id]);
+
     if (!post) {
         return <div>Loading...</div>;
     }

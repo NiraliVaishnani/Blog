@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Popup from '../../popup';
 import '../../../css/Blog/Addblog.css';
+import axios from 'axios';
 
 import { useParams, useNavigate } from 'react-router-dom';
 const DeleteBlog = () => {
@@ -19,6 +20,21 @@ const DeleteBlog = () => {
             })
             .catch(error => console.log(error));
     }
+
+
+
+
+    // const handleDelete = async () => {
+    //     try {
+    //         const response = await axios.delete(`http://localhost:5000/api/blog/${id}`);
+    //         const data = response.data;
+    //         console.log(data);
+    //         navigate(`/`);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
 
     const handleOpenPopup = () => {
         setIsPopupOpen(true);

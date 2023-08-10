@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import '../../../css/Blog/Addblog.css';
 import '../../../css/Blog/EditBlog.css';
 import Popup from '../../popup';
+import axios from 'axios'; // Import axios
 
 const BlogForm = () => {
     const { id } = useParams();
@@ -12,17 +13,35 @@ const BlogForm = () => {
     const [image, setImage] = useState(null); // Store the selected file
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+    // useEffect(() => {
+    //     if (id) {
+    //         fetch(`http://localhost:5000/api/blog/${id}`)
+    //             .then((response) => response.json())
+    //             .then((data) => {
+    //                 setTitle(data.title);
+    //                 setDescription(data.description);
+    //             })
+    //             .catch((error) => console.log(error));
+    //     }
+    // }, [id]);
+
+
     useEffect(() => {
-        if (id) {
-            fetch(`http://localhost:5000/api/blog/${id}`)
-                .then((response) => response.json())
-                .then((data) => {
+        const fetchData = async () => {
+            if (id) {
+                try {
+                    const response = await axios.get(`http://localhost:5000/api/blog/${id}`);
+                    const data = response.data;
                     setTitle(data.title);
                     setDescription(data.description);
-                })
-                .catch((error) => console.log(error));
-        }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        fetchData();
     }, [id]);
+
 
     const handleBlog = async () => {
         try {
@@ -45,7 +64,12 @@ const BlogForm = () => {
         }
     };
 
+
+
+
     const handleFile = (e) => {
+        console.log(e.target.files)
+
         setImage(e.target.files[0]);
         console.log(e.target.files[0]);
     };
