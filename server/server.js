@@ -96,17 +96,33 @@ Blog.sequelize.sync().then(() => {
 
 app.post("/api/account/login", async (req, res) => {
   const { email, password } = req.body;
+  console.log("fgdkuhgdufg")
   try {
+
     const user = await Register.findOne({
       where: {
         email: email,
       },
     });
+    console.log(user.Role_Id);
 
     if (user) {
       if (user.password === password) {
+
+        const permission = await Rolepermission.findAll(
+          {
+            where: {
+              RoleId: user.Role_Id, // Adjust this based on your data model
+            },
+          }
+        )
+        console.log(permission)
         const token = jwt.sign({ email }, "nirali");
-        res.cookie("token", token);
+        res.cookie("token", token, { path: "/" }, { httpOnly: true });
+        if (permission.length > 0) {
+          res.cookie("permission", permission)
+        }
+
         console.log(token);
         res.status(200).json({
           message: "Login successful",
@@ -139,6 +155,19 @@ function verifyToken(req, res, next) {
 app.get("/logout", (req, res) => {
   res.clearCookie("Token");
   res.send("successfully logged out");
+});
+
+
+app.post("/api/set-cookie", (req, res) => {
+  const { token } = req.body;
+
+  if (token) {
+    // Set the token as a cookie
+    res.cookie("token", token, { httpOnly: true });
+    res.status(200).json({ message: "Cookie set successfully" });
+  } else {
+    res.status(400).json({ message: "Token missing" });
+  }
 });
 
 app.post("/api/account/profile", verifyToken, (req, res) => {

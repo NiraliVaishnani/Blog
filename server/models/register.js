@@ -15,6 +15,7 @@ const Register = sequelize.define(
         username: Sequelize.STRING,
         email: Sequelize.STRING,
         password: Sequelize.STRING,
+        Role_Id: Sequelize.INTEGER,
     },
     {
         tableName: "BlogUserregistration",
