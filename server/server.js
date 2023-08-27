@@ -18,6 +18,7 @@ const multer = require("multer");
 app.use(express.static("public"));
 const nodemailer = require("nodemailer");
 const Role = require("./models/roles");
+const Comment = require("./models/Comment");
 const Register = require("./models/register");
 const Country = require("./models/Country");
 const City = require("./models/City");
@@ -33,6 +34,7 @@ const countryRoutes = require("./routes/countryRoutes");
 const stateRoutes = require("./routes/stateRoutes");
 const cityRoutes = require("./routes/cityRoutes");
 const blogRoutes = require("./routes/blogRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 
 const connection = mysql.createConnection({
   host: "40.114.69.227",
@@ -72,6 +74,7 @@ app.use("/api/country", countryRoutes);
 app.use("/api/state", stateRoutes);
 app.use("/api/city", cityRoutes);
 app.use("/api/blog", blogRoutes);
+app.use("/api", commentRoutes);
 
 Blog.sequelize.sync().then(() => {
   console.log("yes re sync");
@@ -96,9 +99,8 @@ Blog.sequelize.sync().then(() => {
 
 app.post("/api/account/login", async (req, res) => {
   const { email, password } = req.body;
-  console.log("fgdkuhgdufg")
+  console.log("fgdkuhgdufg");
   try {
-
     const user = await Register.findOne({
       where: {
         email: email,
@@ -108,19 +110,16 @@ app.post("/api/account/login", async (req, res) => {
 
     if (user) {
       if (user.password === password) {
-
-        const permission = await Rolepermission.findAll(
-          {
-            where: {
-              RoleId: user.Role_Id, // Adjust this based on your data model
-            },
-          }
-        )
-        console.log(permission)
+        const permission = await Rolepermission.findAll({
+          where: {
+            RoleId: user.Role_Id, // Adjust this based on your data model
+          },
+        });
+        console.log(permission);
         const token = jwt.sign({ email }, "nirali");
         res.cookie("token", token, { path: "/" }, { httpOnly: true });
         if (permission.length > 0) {
-          res.cookie("permission", permission)
+          res.cookie("permission", permission);
         }
 
         console.log(token);
@@ -156,7 +155,6 @@ app.get("/logout", (req, res) => {
   res.clearCookie("Token");
   res.send("successfully logged out");
 });
-
 
 app.post("/api/set-cookie", (req, res) => {
   const { token } = req.body;

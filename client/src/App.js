@@ -29,9 +29,9 @@ import Role from "./Components/Main/Role/Role";
 import Resetpassword from "./Components/Main/User/Resetpassword";
 import { AppProvider } from "./Components/Main/AppContext";
 import TokenContextProvider from "./Components/Main/TokenContext";
+import { Comment } from "./Components/Main/Comment";
 function App() {
   return (
-
     <TokenContextProvider>
       <BrowserRouter>
         <Routes>
@@ -46,7 +46,10 @@ function App() {
             <Route path="/addblog" element={<BlogForm />} />
             <Route path="/email-template" element={<Emailtemplatelist />} />
             <Route path="/email-template/add" element={<EmailTemplateForm />} />
-            <Route path="/email-template/:id/edit" element={<EmailTemplateForm />} />
+            <Route
+              path="/email-template/:id/edit"
+              element={<EmailTemplateForm />}
+            />
             <Route path="/setting" element={<Settinglist />}></Route>
             <Route path="/setting/add" element={<SettingForm />} />
             <Route path="/setting/:id/edit" element={<SettingForm />} />
@@ -59,6 +62,7 @@ function App() {
             <Route path="/country" element={<Country />} />
             <Route path="/state" element={<State />} />
             <Route path="/city" element={<City />} />
+            <Route path="/comment" element={<Comment />} />
             <Route path="/country/add" element={<Countrysave />} />
             <Route path="/country/:id/edit" element={<Countrysave />} />
             <Route path="/state/add" element={<Statesave />} />
@@ -70,7 +74,10 @@ function App() {
             <Route path="/role" element={<Role />} />
             <Route path="/role/add" element={<Rolesave />} />
             <Route path="/role/:id/edit" element={<Rolesave />} />
-            <Route path="/userprofile/reset-password/:resetToken" element={<Resetpassword />} />
+            <Route
+              path="/userprofile/reset-password/:resetToken"
+              element={<Resetpassword />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

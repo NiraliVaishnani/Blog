@@ -140,6 +140,11 @@ const Header = () => {
                     <b>CITY</b>
                   </h6>
                 </Link>
+                <Link className="link" to="/comment">
+                  <h6>
+                    <b>COMMENT</b>
+                  </h6>
+                </Link>
               </div>
             )}
           </div>
