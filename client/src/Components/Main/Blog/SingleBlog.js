@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import DeleteBlog from './DeleteBlog';
 import axios from 'axios'; // Import axios
-
+import Comment from '../BlogComment'
 const SingleBlog = () => {
     const [post, setPost] = useState(null);
     const { id } = useParams();
@@ -48,6 +48,8 @@ const SingleBlog = () => {
             <h6>{post.description}</h6>
             <Link to={`/blog/${id}/edit`}><button>Edit</button></Link>
             <DeleteBlog />
+            <div>  <Comment /></div>
+
         </div>
     )
 }

@@ -29,7 +29,7 @@ import Role from "./Components/Main/Role/Role";
 import Resetpassword from "./Components/Main/User/Resetpassword";
 import { AppProvider } from "./Components/Main/AppContext";
 import TokenContextProvider from "./Components/Main/TokenContext";
-import { Comment } from "./Components/Main/Comment";
+
 function App() {
   return (
     <TokenContextProvider>
@@ -62,7 +62,7 @@ function App() {
             <Route path="/country" element={<Country />} />
             <Route path="/state" element={<State />} />
             <Route path="/city" element={<City />} />
-            <Route path="/comment" element={<Comment />} />
+            {/* <Route path="/comment" element={<Comment />} /> */}
             <Route path="/country/add" element={<Countrysave />} />
             <Route path="/country/:id/edit" element={<Countrysave />} />
             <Route path="/state/add" element={<Statesave />} />
