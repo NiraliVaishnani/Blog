@@ -1,0 +1,48 @@
+.avatar2 {
+    align-items: center;
+    text-align: center;
+
+}
+
+/* Avatar.css */
+.avatar {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* .aavtar {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    border: 0.25rem;
+
+    background-color: #f87171;
+    border-radius: 50%;
+} */
+.bg-red-200 {
+    background-color: #f87171;
+    color: white;
+}
+
+.bg-teal-200 {
+    background-color: #4fd1c5;
+    color: white;
+}
+
+.bg-yellow-200 {
+    background-color: #fbbf24;
+    color: white;
+}
+
+.bg-blue {
+    background-color: #8bb8f3;
+
+
+}
