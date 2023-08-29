@@ -111,3 +111,13 @@
 .reply-button {
   background-color: #007bff;
 }
+
+.keyboard {
+  display: flex;
+}
+
+.emoji-picker {
+  align-items: center;
+  border: 1px solid #ccc;
+
+}
