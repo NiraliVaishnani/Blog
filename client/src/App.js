@@ -1,4 +1,4 @@
-import "./App.css";
+import "./global.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Maincontent from "./Layouts/Mainlayout/Maincontent";
 import Home from "./Components/Main/Home";
