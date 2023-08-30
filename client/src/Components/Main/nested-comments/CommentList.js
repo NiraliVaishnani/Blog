@@ -3,7 +3,7 @@ import Avatar from "../Avatar";
 import { ChildComments } from "./ChildComments";
 import { AddComment } from "./AddComment";
 const CommentList = ({ comments, setComments }) => {
-  console.log("list component comments", comments, comments.length);
+  // console.log("list component comments", comments, comments.length);
   return (
     <>
       {comments?.map((com) => (

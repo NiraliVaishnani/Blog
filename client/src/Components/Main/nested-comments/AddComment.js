@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import "../../../css/comment.css";
 import EmojiPicker from "emoji-picker-react";
 export const AddComment = (props) => {
-  console.log("add comment props", props);
+  //  console.log("add comment props", props);
   const [openReplyCommId, setOpenReplyCommId] = useState(null);
   const [replyText, setReplyText] = useState("");
+  const [chosenEmoji, setchosenEmoji] = useState(null);
   const handlePostComment = async (text, parent_id = null) => {
     try {
       const response = await axios.post("http://localhost:5000/api/comments", {
@@ -33,7 +34,10 @@ export const AddComment = (props) => {
     console.log(reply, commentId);
     setReplyText("");
   };
-
+  const onEmojiClick = (event) => {
+    setchosenEmoji(event.emoji);
+  };
+  console.log("chosenEmoji", chosenEmoji);
   const fetchComments = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/comments");
@@ -58,7 +62,7 @@ export const AddComment = (props) => {
             />
             <button> 😀</button>
           </div>
-          <EmojiPicker />
+          <EmojiPicker onEmojiClick={onEmojiClick} />
           <button onClick={() => handlePostReply(replyText, props?.parentId)}>
             Post Reply
           </button>{" "}

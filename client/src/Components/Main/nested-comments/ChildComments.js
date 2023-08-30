@@ -3,7 +3,7 @@ import { AddComment } from "./AddComment";
 import Avatar from "../Avatar";
 
 export const ChildComments = (props) => {
-  console.log("reply props", props);
+  //  console.log("reply props", props);
   const [replies, setReplies] = useState([]);
   useEffect(() => {
     const childReplies = props.comments?.filter(
