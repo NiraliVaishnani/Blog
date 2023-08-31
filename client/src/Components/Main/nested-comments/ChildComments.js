@@ -5,11 +5,25 @@ import Avatar from "../Avatar";
 export const ChildComments = (props) => {
   //  console.log("reply props", props);
   const [replies, setReplies] = useState([]);
+
+  const originalform = (hex) => {
+    console.log("hex", hex);
+    const unicodeValues = hex.split(" ");
+    console.log("unicodeValues", unicodeValues)
+
+
+    const originalText = unicodeValues
+      .map((hexValue) => String.fromCodePoint(parseInt(hexValue, 16)))
+      .join("");
+    return originalText;
+
+
+  }
   useEffect(() => {
     const childReplies = props.comments?.filter(
       (ele) => ele.parent_id === props.parentId
     );
-    console.log("childReplies", childReplies, props?.comments, props?.parentId);
+    //  console.log("childReplies", childReplies, props?.comments, props?.parentId);
     setReplies(childReplies);
   }, [props.comments, props.parentId]);
   return (
@@ -22,7 +36,8 @@ export const ChildComments = (props) => {
               {reply.user_name}
             </div>
             <div style={{ fontSize: "18px", color: "#333" }}>
-              {reply.text}
+              {/* {reply.text} */}
+              {originalform(reply.text)}
               <AddComment
                 parentId={reply.id}
                 setComments={props?.setComments}

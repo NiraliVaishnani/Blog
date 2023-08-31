@@ -6,7 +6,7 @@ import EmojiPicker from "emoji-picker-react";
 import CommentList from "./CommentList";
 const Comment = () => {
   const [comment, setComment] = useState("");
-  const [showComment, setShowComment] = useState("");
+
   const [comments, setComments] = useState([]);
   const [emojipicker, setemojipicker] = useState(false);
   const [chosenEmoji, setchosenEmoji] = useState(null);
@@ -36,19 +36,32 @@ const Comment = () => {
     const emojiString = event.emoji.codePointAt(0).toString(16);
     setchosenEmoji(event.emoji);
     const tempComment = `${comment}${emojiString}`;
-    const tempCommentShow = `${showComment}${event.emoji}`;
+    const tempCommentShow = `${comment}${event.emoji}`;
     console.log("emojiString", tempComment, "showComment", tempCommentShow);
-    const convertToEmoji = String.fromCodePoint("0x" + emojiString);
-    setComment(tempComment);
-    setShowComment();
-    console.log("convertedToEmoji", convertToEmoji);
+    //const convertToEmoji = String.fromCodePoint("0x" + emojiString);
+    setComment(tempCommentShow);
+    //  setShowComment();
+    // console.log("convertedToEmoji", convertToEmoji);
     // setComment(comment + event.emoji);
   };
 
   const handlePostComment = async (text) => {
+    console.log("text", text);
+    const unicodeEmojis = Array.from(text)
+      .map((char) => char.codePointAt(0).toString(16))
+      .join(" ");
+    const unicodeValues = unicodeEmojis.split(" ");
+    console.log("unicodeValues??????", unicodeValues);
+    // Convert each hexadecimal value back to its corresponding character
+    const originalText = unicodeValues
+      .map((hexValue) => String.fromCodePoint(parseInt(hexValue, 16)))
+      .join("");
+
+    console.log("Original Text:", originalText); // Should display the original emojis and text
+
     try {
       const response = await axios.post("http://localhost:5000/api/comments", {
-        text,
+        text: unicodeEmojis,
         user_id: 1,
         user_name: "John Doe",
         parent_id: null,
@@ -68,19 +81,20 @@ const Comment = () => {
   return (
     <div className="comment-container">
       <div className="keyboard">
-        {chosenEmoji}
+
         <textarea
           className="comment-input"
           placeholder="Write your comment..."
-          value={showComment}
+          value={comment}
           onChange={(e) => {
             setComment(e.target.value);
-            setShowComment(e.target.value);
+
           }}
         />
 
         <button
           className="submit-button"
+          style={{ height: "85px" }}
           onClick={() => setemojipicker(!emojipicker)}
         >
           😀
