@@ -6,12 +6,16 @@ export const ChildComments = (props) => {
   //  console.log("reply props", props);
   const [replies, setReplies] = useState([]);
 
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString(); // Adjust this to format the time as needed
+  };
+
+
   const originalform = (hex) => {
     console.log("hex", hex);
     const unicodeValues = hex.split(" ");
     console.log("unicodeValues", unicodeValues)
-
-
     const originalText = unicodeValues
       .map((hexValue) => String.fromCodePoint(parseInt(hexValue, 16)))
       .join("");
@@ -20,10 +24,11 @@ export const ChildComments = (props) => {
 
   }
   useEffect(() => {
+
     const childReplies = props.comments?.filter(
       (ele) => ele.parent_id === props.parentId
     );
-    //  console.log("childReplies", childReplies, props?.comments, props?.parentId);
+    console.log("childReplies", childReplies, props?.comments, props?.parentId);
     setReplies(childReplies);
   }, [props.comments, props.parentId]);
   return (
@@ -34,10 +39,13 @@ export const ChildComments = (props) => {
             <div className="aavtar" style={{ display: "flex", color: "#999" }}>
               <Avatar username={reply.user_name} userId={reply.id} />
               {reply.user_name}
+              &nbsp;&nbsp;
+              {formatTimestamp(reply.createdAt)}
             </div>
             <div style={{ fontSize: "18px", color: "#333" }}>
               {/* {reply.text} */}
               {originalform(reply.text)}
+
               <AddComment
                 parentId={reply.id}
                 setComments={props?.setComments}

@@ -13,6 +13,7 @@ export const AddComment = (props) => {
     const unicodeEmojis = Array.from(text)
       .map((char) => char.codePointAt(0).toString(16))
       .join(" ");
+
     const unicodeValues = unicodeEmojis.split(" ");
     console.log("unicodeValues??????", unicodeValues);
     // // Convert each hexadecimal value back to its corresponding character
@@ -44,10 +45,6 @@ export const AddComment = (props) => {
   const handlePostReply = (reply, commentId) => {
     console.log("handlePostReply")
     console.log("handle Post", reply, commentId);
-
-
-
-
     handlePostComment(reply, commentId);
     console.log(reply, commentId);
     setReplyText("");
@@ -80,9 +77,12 @@ export const AddComment = (props) => {
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
             />
-            <button style={{ height: "85px  " }}> 😀</button>
+            <button style={{ height: "85px  " }} onClick={() => setemojipicker(!emojipicker)}> 😀</button>
           </div>
-          <EmojiPicker onEmojiClick={onEmojiClick} />
+          {/* <EmojiPicker onEmojiClick={onEmojiClick} /> */}
+          {emojipicker && (
+            <EmojiPicker onEmojiClick={(event) => onEmojiClick(event)} />
+          )}
           <button onClick={() => handlePostReply(replyText, props?.parentId)}>
             Post Reply
           </button>{" "}

@@ -35,14 +35,9 @@ const Comment = () => {
     );
     const emojiString = event.emoji.codePointAt(0).toString(16);
     setchosenEmoji(event.emoji);
-    const tempComment = `${comment}${emojiString}`;
     const tempCommentShow = `${comment}${event.emoji}`;
-    console.log("emojiString", tempComment, "showComment", tempCommentShow);
-    //const convertToEmoji = String.fromCodePoint("0x" + emojiString);
     setComment(tempCommentShow);
-    //  setShowComment();
-    // console.log("convertedToEmoji", convertToEmoji);
-    // setComment(comment + event.emoji);
+
   };
 
   const handlePostComment = async (text) => {
