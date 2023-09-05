@@ -2,13 +2,23 @@ import React from "react";
 import Avatar from "../Avatar";
 import { ChildComments } from "./ChildComments";
 import { AddComment } from "./AddComment";
+import humanizeDuration from 'humanize-duration';
 const CommentList = ({ comments, setComments }) => {
   // console.log("list component comments", comments, comments.length);
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleString(); // Adjust this to format the time as needed
   };
-
+  const formattedDuration = (timestamp) => {
+    const createdAt = new Date(timestamp);
+    const now = new Date()
+    const duration = now - createdAt;
+    const humanize = humanizeDuration(duration, {
+      round: true,
+      largest: 1, // Show only the largest unit (e.g., "2 days" instead of "2 days 4 hours")
+    });
+    return humanize;
+  }
   const originalform = (hex) => {
     console.log("hex", hex);
     const unicodeValues = hex.split(" ");
@@ -32,9 +42,9 @@ const CommentList = ({ comments, setComments }) => {
               >
                 <Avatar username={com.user_name} userId={com.id} />
                 {com.user_name}
-                &nbsp;&nbsp;
-                {formatTimestamp(com.createdAt)}
 
+                &nbsp;&nbsp;
+                Posted {formattedDuration(com.createdAt)} ago
               </div>
 
               {/* <div style={{ fontSize: "18px", color: "#333" }}>{com.text}</div> */}
