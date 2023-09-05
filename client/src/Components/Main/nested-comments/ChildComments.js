@@ -4,6 +4,7 @@ import Avatar from "../Avatar";
 import humanizeDuration from 'humanize-duration';
 
 export const ChildComments = (props) => {
+  console.log("index", props.index)
   //  console.log("reply props", props);
   const [replies, setReplies] = useState([]);
 
@@ -25,9 +26,9 @@ export const ChildComments = (props) => {
   }
 
   const originalform = (hex) => {
-    console.log("hex", hex);
+    // console.log("hex", hex);
     const unicodeValues = hex.split(" ");
-    console.log("unicodeValues", unicodeValues)
+    // console.log("unicodeValues", unicodeValues)
     const originalText = unicodeValues
       .map((hexValue) => String.fromCodePoint(parseInt(hexValue, 16)))
       .join("");
@@ -40,7 +41,7 @@ export const ChildComments = (props) => {
     const childReplies = props.comments?.filter(
       (ele) => ele.parent_id === props.parentId
     );
-    console.log("childReplies", childReplies, props?.comments, props?.parentId);
+    // console.log("childReplies", childReplies, props?.comments, props?.parentId);
     setReplies(childReplies);
   }, [props.comments, props.parentId]);
   return (
@@ -64,6 +65,7 @@ export const ChildComments = (props) => {
                 setComments={props?.setComments}
               />
             </div>
+
             <ChildComments
               comments={props?.comments}
               parentId={reply.id}

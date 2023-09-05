@@ -4,10 +4,13 @@ import "../../../css/comment.css";
 import EmojiPicker from "emoji-picker-react";
 export const AddComment = (props) => {
   //  console.log("add comment props", props);
+
   const [openReplyCommId, setOpenReplyCommId] = useState(null);
+
   const [replyText, setReplyText] = useState("");
   const [emojipicker, setemojipicker] = useState(false);
   const [chosenEmoji, setchosenEmoji] = useState(null);
+  console.log("ChildEmoji", props.parentId, emojipicker)
   const handlePostComment = async (text, parent_id = null) => {
     console.log("handlePostComment")
     const unicodeEmojis = Array.from(text)
@@ -54,7 +57,7 @@ export const AddComment = (props) => {
     const tempCommentShow = `${replyText}${event.emoji}`;
     setReplyText(tempCommentShow);
   };
-  console.log("chosenEmoji", chosenEmoji);
+  //console.log("chosenEmoji", chosenEmoji);
   const fetchComments = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/comments");

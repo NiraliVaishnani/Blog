@@ -1,14 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "../Avatar";
 import { ChildComments } from "./ChildComments";
 import { AddComment } from "./AddComment";
 import humanizeDuration from 'humanize-duration';
-const CommentList = ({ comments, setComments }) => {
-  // console.log("list component comments", comments, comments.length);
-  const formatTimestamp = (timestamp) => {
-    const date = new Date(timestamp);
-    return date.toLocaleString(); // Adjust this to format the time as needed
-  };
+const CommentList = ({ comments, setComments, key }) => {
+
+  const [childRepliesShow, setchildRepliesShow] = useState(false)
+  const [openChild, setOpenChild] = useState(null);
+  console.log("ReplyShow", childRepliesShow)
   const formattedDuration = (timestamp) => {
     const createdAt = new Date(timestamp);
     const now = new Date()
@@ -20,9 +19,9 @@ const CommentList = ({ comments, setComments }) => {
     return humanize;
   }
   const originalform = (hex) => {
-    console.log("hex", hex);
+
     const unicodeValues = hex.split(" ");
-    console.log("unicodeValues", unicodeValues)
+
     const originalText = unicodeValues
       .map((hexValue) => String.fromCodePoint(parseInt(hexValue, 16)))
       .join("");
@@ -49,13 +48,21 @@ const CommentList = ({ comments, setComments }) => {
 
               {/* <div style={{ fontSize: "18px", color: "#333" }}>{com.text}</div> */}
               <div style={{ fontSize: "18px", color: "#333" }}>{originalform(com.text)}</div>
-              <AddComment parentId={com.id} setComments={setComments} />
 
-              <ChildComments
+              <AddComment parentId={com.id} setComments={setComments} />
+              {openChild === com.id && childRepliesShow ? <ChildComments
                 comments={comments}
                 parentId={com.id}
                 setComments={setComments}
-              />
+              /> : null}
+              <button onClick={() => {
+                console.log("com.parent_id", com.id);
+                setOpenChild(com.id)
+                setchildRepliesShow(!childRepliesShow)
+                console.log("childRepliesShow", childRepliesShow)
+                //  toggleChildRepliesShow(com.id)
+              }}>Show reply</button>
+
             </div>
           ) : null}
         </>

@@ -13,10 +13,11 @@ const Comment = () => {
   console.log("emojiPicker", emojipicker);
   console.log("blog component", comments);
   useEffect(() => {
-    console.log("useeffect fetchComment");
+    // console.log("useeffect fetchComment", comments);
     fetchComments();
   }, []);
 
+  console.log("useeffect fetchComment", comments);
   const fetchComments = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/comments");
@@ -28,6 +29,7 @@ const Comment = () => {
     }
   };
   const onEmojiClick = (event) => {
+    console.log("emojipicker", emojipicker)
     console.log(
       "event.emoji",
       event.emoji,
@@ -90,7 +92,8 @@ const Comment = () => {
         <button
           className="submit-button"
           style={{ height: "85px" }}
-          onClick={() => setemojipicker(!emojipicker)}
+          onClick={() => { setemojipicker(!emojipicker); console.log("emojipicker", emojipicker) }
+          }
         >
           😀
         </button>
@@ -105,6 +108,7 @@ const Comment = () => {
         Post Comment
       </button>
       <div className="comment-list">
+
         <CommentList comments={comments} setComments={setComments} />
       </div>
     </div>
