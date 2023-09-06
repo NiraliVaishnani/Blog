@@ -140,9 +140,10 @@ const Header = () => {
                     <b>CITY</b>
                   </h6>
                 </Link>
-                <Link className="link" to="/comment">
+
+                <Link className="link" to="/chat">
                   <h6>
-                    <b>COMMENT</b>
+                    <b>CHAT</b>
                   </h6>
                 </Link>
               </div>

@@ -1,0 +1,59 @@
+.chatbox {
+    border: 2px solid grey;
+    border-radius: 5px;
+    margin: 5px 0;
+    padding: 10px;
+    background-color: bisque;
+}
+
+.container {
+    display: flex;
+}
+
+.container.me {
+    flex-direction: row-reverse;
+}
+
+.chatbox.me {
+    background-color: cadetblue;
+}
+
+.btm-chatbox {
+    position: absolute;
+    width: 100%;
+
+    bottom: 130px;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.ChatContainer {
+    display: flex;
+    height: 100vh;
+    height: 80%;
+}
+
+.ContactListContainer {
+    flex: 1;
+    background-color: #6CB4EE;
+}
+
+.ChatListContainer {
+    flex: 4;
+    background-color: #E1EBEE;
+
+}
+
+.Chatbox {
+    position: relative;
+    height: 100vh;
+    /* overflow-y: auto; */
+
+}
+
+#chat {
+    /* background-color: green; */
+    height: 60vh;
+    overflow-y: auto;
+}

@@ -8,7 +8,7 @@
 
 } */
 
-#header > div {
+#header>div {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -105,7 +105,8 @@ h6 {
 }
 
 #header {
-  position: relative;
+  position: fixed;
+  width: 100%;
   z-index: 1;
   /* Ensure the header is in front */
 }
