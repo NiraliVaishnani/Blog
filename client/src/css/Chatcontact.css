@@ -1,0 +1,118 @@
+.online-people-list {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.online-person {
+    display: flex;
+    background-color: #f0f0f0;
+    padding: 8px;
+    /* margin-bottom: 5px; */
+    align-items: center;
+
+    border: 1px solid #ddd;
+}
+
+
+
+.chat-icon {
+    vertical-align: middle;
+    margin-right: 5px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.contact-list-header {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #0066b2;
+    margin-top: 20px;
+    margin-left: 10px;
+
+}
+
+
+
+.avatar2 {
+    align-items: center;
+    text-align: center;
+
+}
+
+/* Avatar.css */
+.avatar {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* .aavtar {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    border: 0.25rem;
+
+    background-color: #f87171;
+    border-radius: 50%;
+} */
+.bg-red-200 {
+    background-color: #f87171;
+    color: white;
+}
+
+.bg-teal-200 {
+    background-color: #4fd1c5;
+    color: white;
+}
+
+.bg-yellow-200 {
+    background-color: #fbbf24;
+    color: white;
+}
+
+.bg-blue {
+    background-color: #8bb8f3;
+
+
+}
+
+/* Add appropriate styles for the chatarea container */
+.chatarea-container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style the chatarea header */
+.chatarea-header {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+
+
+/* Style the send button */
+.message-box button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover effect for the send button */
+.message-box button:hover {
+    background-color: #0056b3;
+}

@@ -4,12 +4,15 @@ import { auth } from 'firebase/auth';
 //import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import '../../../css/chat.css'
 import { ChatContext } from './ChatContext'
+import { Link, useParams } from 'react-router-dom';
 const ChatList = () => {
-    const { user, googleLogin } = useContext(ChatContext);
-    const db = getDatabase();
-    const chatListRef = ref(db, 'chats');
-
-    // const [user, setuser] = useState("");
+    const { uid } = useParams();
+    //console.log("uid", uid)
+    const { user, googleLogin, selectedUserId, uniqueID } = useContext(ChatContext);
+    console.log("selectedUserId", selectedUserId)
+    console.log("uniqueID", uniqueID)
+    const db = getDatabase();  //allows you to access the Realtime Database
+    const chatListRef = ref(db, 'chats');//ref function is used to specify a location in the database
     const [chats, setchats] = useState([])
     const [msg, setmsg] = useState("")
 
@@ -17,6 +20,7 @@ const ChatList = () => {
         ChildAdded();
     }, [])
 
+    //Get all messages from reatimeDatabase and store in array
     const ChildAdded = () => {
         console.log("line51")
         onChildAdded(chatListRef, (data) => {
@@ -30,18 +34,16 @@ const ChatList = () => {
 
     const updateHeight = () => {
         const el = document.getElementById('chat');
-        // el.scrollTop = el.scrollHeight;
         if (el) {
             el.scrollTop = el.scrollHeight;
         }
-        else {
-            // console.log("9999999")
-        }
     }
+
+    //Add message to database 
     const handleMessage = () => {
         console.log("Message")
-        // Create a new post reference with an auto-generated id
-        const chatRef = push(chatListRef);
+
+        const chatRef = push(chatListRef);//line generates a new unique key 
         set(chatRef, {
             user, message: msg
         });
@@ -51,7 +53,7 @@ const ChatList = () => {
     return (
         <div>
 
-            {user ? null : (<><button onClick={googleLogin}>Google SignIn</button></>)}
+            {/* {user ? null : (<><button onClick={googleLogin}>Google SignIn</button></>)} */}
             {user.email ? (<div className="Chatbox">
                 <h1>User:{user.name}</h1>
 
@@ -68,14 +70,11 @@ const ChatList = () => {
                     <input type="text" value={msg} placeholder="Enter your chat" onChange={(e) => setmsg(e.target.value)} style={{ flexGrow: 1, padding: "20px" }}></input>
                     <button type="button" style={{ backgroundColor: "cadetblue", padding: "0px 10px 0px 10px" }} onClick={handleMessage}>Send</button>
                 </div></div>) : null}
-            {/* <div>
-                <div className='chating'><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6><h6>hyyyy</h6></div>
-                <div className="seingkey"><input type="text" placeholder="enter yor msg"></input><button>click here</button></div>
 
-            </div> */}
-
-
+            {selectedUserId ? (<Link to={`/chat/${uniqueID}/${selectedUserId}`}><h1>hyy${uid}${selectedUserId}</h1></Link>) : null}
+            hyy
         </div>
+
     )
 }
 

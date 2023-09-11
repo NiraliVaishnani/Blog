@@ -36,7 +36,8 @@
 
 .ContactListContainer {
     flex: 1;
-    background-color: #6CB4EE;
+    /* background-color: #6CB4EE; */
+    background-color: #f0f0f0;
 }
 
 .ChatListContainer {

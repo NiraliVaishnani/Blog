@@ -9,6 +9,7 @@ import ChatList from './ChatList';
 import { ChatContext } from './ChatContext';
 import ChatContact from './ChatContact';
 const Chat = () => {
+    console.log("klkl")
     const { user, setUser, googleLogin } = useContext(ChatContext);
     const db = getDatabase();
     const chatListRef = ref(db, 'chats');
@@ -16,19 +17,10 @@ const Chat = () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
 
-
-
-
-
-
-
-
-
     return (
         <div className="ChatContainer">
             <div className="ContactListContainer"><ChatContact /></div>
             <div className="ChatListContainer">  <ChatList /></div>
-
         </div>
     )
 }
