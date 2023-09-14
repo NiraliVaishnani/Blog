@@ -77,8 +77,6 @@
 // export default ChatContact 
 
 
-
-
 import React, { useContext, useEffect, useState } from 'react';
 import { getDatabase, ref, push, set, onChildAdded, onValue } from "firebase/database";
 import { BsFillChatLeftFill } from 'react-icons/bs';
@@ -157,7 +155,7 @@ const ChatContact = () => {
                 <div className="contact-list-header">Mernchat <BsFillChatLeftFill className="chat-icon" /></div>
                 <div className="online-people-list">
                     {contacts.map((contact, index) => (
-                        <Link to={`/chat/${uid}/${contact.id}`} key={index} contactId={contact.id}>
+                        <Link style={{ textDecoration: "none" }} to={`/chat/${uid}/${contact.id}`} key={index} contactId={contact.id}>
                             <div
                                 onClick={() => selectContact(contact.id)}
                                 className={`online-person ${selectedUserId === contact.id ? 'bg-blue' : ''}`}
@@ -168,7 +166,7 @@ const ChatContact = () => {
                         </Link>
                     ))}
                 </div>
-                <div className="add-contact">
+                {/* <div className="add-contact">
                     <h3>Add Contact</h3>
                     <input
                         type="text"
@@ -183,7 +181,7 @@ const ChatContact = () => {
                         onChange={(e) => setNewContactEmail(e.target.value)}
                     />
                     <button onClick={addContact}>Add Contact</button>
-                </div>
+                </div> */}
             </div>
         </>
     );

@@ -3,7 +3,8 @@ import '../../../css/Chatcontact.css';
 import '../../../css/Blog/Avatar.css';
 const Avatar = (props) => {
 
-    const { userId, username } = props;
+    const { username } = props;
+    const userId = 3;
     console.log("nmnm", userId, username)
     const colors = ['bg-red-200', 'bg-teal-200', 'bg-yellow-200']
     const userIdBase10 = parseInt(userId, 10)

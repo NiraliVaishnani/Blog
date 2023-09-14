@@ -42,6 +42,7 @@ export const ChatProvider = ({ children, navigate }) => {
                     // Add your contact data here...
                 });
                 console.log({ name: result.user.displayName, email: result.user.email })
+
                 setUser({ name: result.user.displayName, email: result.user.email });
                 console.log(`User info`, user);
                 const uid = result.user.uid;

@@ -7,10 +7,7 @@ const Chatsignup = () => {
     console.log("cHATSIGNUPTOKEN", token)
 
     return (
-        // <div>
-        //     User Sign In
-        //     <button onClick={googleLogin}>Google SignIn</button>
-        // </div>
+
         <div className="Chatcontainer">
             <div className="Chatcontent">
                 <h1 style={{

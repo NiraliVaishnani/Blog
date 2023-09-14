@@ -80,7 +80,7 @@ function App() {
             <Route path="/role/add" element={<Rolesave />} />
             <Route path="/role/:id/edit" element={<Rolesave />} />
             <Route path="/chat/:id" element={<Chat />} />
-            <Route path="/chat/signup" element={<Chatsignup />} />
+            <Route path="/chat/signin" element={<Chatsignup />} />
             <Route path="/chat/:id/:id" element={<Chat />} />
             <Route
               path="/userprofile/reset-password/:resetToken"

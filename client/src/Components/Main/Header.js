@@ -141,7 +141,7 @@ const Header = () => {
                   </h6>
                 </Link>
 
-                <Link className="link" to="/chat/signup">
+                <Link className="link" to="/chat/signin">
                   <h6>
                     <b>CHAT</b>
                   </h6>
