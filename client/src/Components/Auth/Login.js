@@ -24,13 +24,14 @@ function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        const { token, username } = data;
+        const { token, username, role } = data;
         console.log("Token:", token);
 
         console.log("Username:", username); // Add this line to check the username
+        console.log("Role:", role);
         // Set the token in local storage
         // localStorage.setItem("logintoken", token);
-        localStorage.setItem("login-data", JSON.stringify({ token, username }));
+        localStorage.setItem("login-data", JSON.stringify({ token, username, role }));
         // Cookies.set("token", token);
         alert("Login successful");
         setemail("");

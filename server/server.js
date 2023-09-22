@@ -106,7 +106,7 @@ app.post("/api/account/login", async (req, res) => {
         email: email,
       },
     });
-    console.log(user.Role_Id);
+
 
     if (user) {
       if (user.password === password) {
@@ -118,6 +118,7 @@ app.post("/api/account/login", async (req, res) => {
         console.log(permission);
         const token = jwt.sign({ email }, "nirali");
         res.cookie("token", token, { path: "/" }, { httpOnly: true });
+        console.log("TOKEN", token);
         if (permission.length > 0) {
           res.cookie("permission", permission);
         }
@@ -127,6 +128,7 @@ app.post("/api/account/login", async (req, res) => {
           message: "Login successful",
           token,
           username: user.username,
+          role: user.Role_Id,
         }); // Include the token field in the response
       } else {
         res.json({ message: "Invalid password" });

@@ -4,6 +4,7 @@ export const TokenContext = createContext();
 function TokenContextProvider(props) {
 
     const [loggedInUser, setLoggedInUser] = useState(null); // Include loggedInUser state
+    const [role, setRole] = useState(null);
     const logOut = () => {
         localStorage.removeItem('login-data');
         setLoggedInUser(null); // Update loggedInUser to null on logout
@@ -12,6 +13,8 @@ function TokenContextProvider(props) {
         try {
             console.log("Nirali");
             const getData = JSON.parse(localStorage.getItem('login-data'));
+            console.log("getData", getData.role);
+            setRole(getData.role);
             setLoggedInUser(getData);
         } catch (error) {
             console.error('Error parsing token:', error);
@@ -26,7 +29,7 @@ function TokenContextProvider(props) {
 
     return (
         <div>
-            <TokenContext.Provider value={{ logOut, loggedInData, loggedInUser }}>
+            <TokenContext.Provider value={{ logOut, loggedInData, loggedInUser, role, setRole }}>
                 {props.children}
             </TokenContext.Provider>
         </div >

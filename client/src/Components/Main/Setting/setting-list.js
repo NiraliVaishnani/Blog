@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import '../../../css/Setting.css';
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom';
 import Settingdelete from './setting-delete';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { TokenContext } from '../TokenContext';
 const Settinglist = () => {
     const { id } = useParams();
+    const { role } = useContext(TokenContext)
+    // Role-based authorization using `includes` method
+
+    const authorizedRoles = [role]
+    const isAuthorized = authorizedRoles.includes(1);
+    console.log(`Authorization`, authorizedRoles.includes(1))
 
     const [setting, setSetting] = useState([]);
     const fetchSetting = () => {
@@ -28,8 +35,9 @@ const Settinglist = () => {
                 <tr>
                     <td className="table-header">Key</td>
                     <td className="table-header">Value</td>
-                    <td className="table-header">Action</td>
-
+                    {/* {isAuthorized ? (<><td className="table-header">Action</td></>
+                    )} */}
+                    {isAuthorized && (<><td className="table-header">Action</td></>)}
                 </tr>
                 <tbody>
 
@@ -37,9 +45,9 @@ const Settinglist = () => {
                         <tr key={settings.id}>
                             <td>{settings.Key}</td>
                             <td>{settings.Value}</td>
-                            <td><Link to={`/setting/${settings.id}/edit`}>
+                            {isAuthorized && (<td><Link to={`/setting/${settings.id}/edit`}>
                                 <FontAwesomeIcon className="editButton" icon={faPenToSquare} /></Link>
-                                <Settingdelete id={settings.id} fetchSetting={fetchSetting} /></td>
+                                <Settingdelete id={settings.id} fetchSetting={fetchSetting} /></td>)}
                         </tr>
                     ))}
                 </tbody>

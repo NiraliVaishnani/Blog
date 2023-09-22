@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { getDatabase, ref, push, set, onChildAdded, onValue } from "firebase/database";
 import '../../../css/chat.css'
 import { ChatContext } from './ChatContext'
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 
 const ChatList = () => {
@@ -20,10 +20,10 @@ const ChatList = () => {
     useEffect(() => {
         ChildAdded();
     }, [uid, id])
-    // Fetch the receiverId2 when the component mounts
+
 
     useEffect(() => {
-        // const contactPath = `users/${uid}/contacts/${id}`;
+
         const userpath = `users/${uid}`
         const contactPath = `users/${uid}/contacts/${selectedUserId}`;
         console.log("contactPath", contactPath)
@@ -67,15 +67,9 @@ const ChatList = () => {
             });
             console.log("data.val()", data.val());
             console.log("QWE", chats, data.val(), chats.length)
-            //setchats(chats => [...chats, data.val()]);
-            // Check if the message is already in the chats array before adding it
             const existingMessageIndex = chats.findIndex((message) => message.timestamp === data.val().timestamp);
 
-            if (existingMessageIndex === -1) {
-                // If it's a new message, add it to the chats array
-                // setchats((prevChats) => [...prevChats, data.val()]);
-                // setchats(messagesArray);
-            }
+
             updateHeight();
         }, 100);
     }
@@ -148,11 +142,7 @@ const ChatList = () => {
                     <button type="button" style={{ backgroundColor: "cadetblue", padding: "0px 10px 0px 10px" }} onClick={handleMessage}>Send</button>
                 </div></div>) : <h1 style={{ textAlign: "center", fontSize: "24px", color: "#888" }}>No Chat selected</h1>
             }
-            {/* {receiverId2}
-            <div className="btm-chatbox">
-                <input type="text" value={msg} placeholder="Enter your chat" onChange={(e) => setmsg(e.target.value)} style={{ flexGrow: 1, padding: "20px" }}></input>
-                <button type="button" style={{ backgroundColor: "cadetblue", padding: "0px 10px 0px 10px" }} onClick={handleMessage}>Send</button>
-            </div> */}
+
         </div>
 
     )

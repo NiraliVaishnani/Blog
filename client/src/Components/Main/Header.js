@@ -9,7 +9,6 @@ const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const { loggedInUser, logOut } = useContext(TokenContext);
   const navigate = useNavigate();
-
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };

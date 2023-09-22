@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { getDatabase, ref, push, set, onChildAdded } from "firebase/database";
 import { auth } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-//import { GoogleAuthProvider } from "firebase/auth";
+
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import '../../../css/chat.css'
 import ChatList from './ChatList';

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../../css/Blog/Addblog.css';
 import '../../../css/Blog/EditBlog.css';
 import Popup from '../../popup';
 import axios from 'axios'; // Import axios
+import { TokenContext } from '../TokenContext';
 
 const BlogForm = () => {
     const { id } = useParams();
@@ -12,6 +13,12 @@ const BlogForm = () => {
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null); // Store the selected file
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    // const { role } = useContext(TokenContext)
+    // // Role-based authorization using `includes` method
+
+    // const authorizedRoles = [role]
+    // const isAuthorized = authorizedRoles.includes(1);
+    // console.log(`Authorization`, authorizedRoles.includes(1))
 
     // useEffect(() => {
     //     if (id) {
@@ -92,6 +99,7 @@ const BlogForm = () => {
 
     return (
         <div>
+
             <form onSubmit={handleSubmit}>
                 <div className={id ? 'editblog' : 'addblog'}>
                     <h1>{id ? 'Edit Blog' : 'Add Blog'}</h1>
@@ -105,13 +113,17 @@ const BlogForm = () => {
                 </div>
             </form>
 
-            {isPopupOpen && (
-                <Popup title="Confirmation" open={isPopupOpen} onClose={handleClosePopup}>
-                    <p>{id ? 'Are you sure you want to edit?' : 'Are you sure you want to add?'}</p>
-                    <button type="submit" onClick={handleBlog}>{id ? 'Confirm Changes' : 'Confirm Add'}</button>
-                </Popup>
-            )}
-        </div>
+
+
+            {
+                isPopupOpen && (
+                    <Popup title="Confirmation" open={isPopupOpen} onClose={handleClosePopup}>
+                        <p>{id ? 'Are you sure you want to edit?' : 'Are you sure you want to add?'}</p>
+                        <button type="submit" onClick={handleBlog}>{id ? 'Confirm Changes' : 'Confirm Add'}</button>
+                    </Popup>
+                )
+            }
+        </div >
     );
 };
 
