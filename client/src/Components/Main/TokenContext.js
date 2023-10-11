@@ -1,3 +1,4 @@
+import { getDatabase, onValue, ref } from 'firebase/database';
 import React, { createContext, useState, useEffect } from 'react';
 export const TokenContext = createContext();
 
@@ -5,6 +6,8 @@ function TokenContextProvider(props) {
 
     const [loggedInUser, setLoggedInUser] = useState(null); // Include loggedInUser state
     const [role, setRole] = useState(null);
+
+
     const logOut = () => {
         localStorage.removeItem('login-data');
         setLoggedInUser(null); // Update loggedInUser to null on logout

@@ -41,6 +41,7 @@ const Home = () => {
                                     className="image"
                                     src={`http://localhost:5000/upload/${post.image}`}
                                     alt="image"
+                                    loading="lazy"
                                 />
                             </div>
                             <div className="content">

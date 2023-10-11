@@ -33,6 +33,8 @@ import Chat from "./Components/Main/Chat/Chat"
 import { ChatProvider } from "./Components/Main/Chat/ChatContext";
 import Chatsignup from "./Components/Main/Chat/Chatsignup";
 import ChatList from "./Components/Main/Chat/ChatList";
+import File from "./Components/Main/Chat/File";
+import Image from "./Components/Main/Image";
 function App() {
   const navigate = useNavigate();
   return (
@@ -82,6 +84,8 @@ function App() {
             <Route path="/chat/:id" element={<Chat />} />
             <Route path="/chat/signin" element={<Chatsignup />} />
             <Route path="/chat/:id/:id" element={<Chat />} />
+            <Route path="/chat/file" element={<File />} />
+            <Route path="/images" element={<Image />}></Route>
             <Route
               path="/userprofile/reset-password/:resetToken"
               element={<Resetpassword />}

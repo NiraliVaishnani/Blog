@@ -5,10 +5,11 @@ import { Link, useParams } from 'react-router-dom';
 import Avatar from './Avatar';
 import '../../../css/Chatcontact.css';
 import { ChatContext } from './ChatContext';
+import FileUploading from './FileUploading';
 
 const ChatContact = () => {
-    const { selectedUserId, setSelectedUserId, uid } = useContext(ChatContext);
-    const [contacts, setContacts] = useState([]);
+    const { selectedUserId, setSelectedUserId, uid, contacts, setContacts } = useContext(ChatContext);
+    console.log("ContextContact", contacts)
     //  const [newContactName, setNewContactName] = useState('');
     //  const [newContactEmail, setNewContactEmail] = useState('');
 
@@ -41,26 +42,26 @@ const ChatContact = () => {
     //         });
     // };
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const dataRef = ref(db, `users/${uid}/contacts`);
+    //     const dataRef = ref(db, `users/${uid}/contacts`);
+    //     console.log("dataRef", `users / ${uid} / contacts`)
+    //     // Attach an event listener to retrieve data
+    //     onValue(dataRef, (snapshot) => {
+    //         const dataArr = [];
+    //         snapshot.forEach((childSnapshot) => {
+    //             const uniqueID = childSnapshot.key;
 
-        // Attach an event listener to retrieve data
-        onValue(dataRef, (snapshot) => {
-            const dataArr = [];
-            snapshot.forEach((childSnapshot) => {
-                const uniqueID = childSnapshot.key;
-
-                const childData = childSnapshot.val();
-                const newData = {
-                    id: uniqueID,
-                    ...childData,
-                };
-                dataArr.push(newData);
-            });
-            setContacts(dataArr);
-        });
-    }, [uid]);
+    //             const childData = childSnapshot.val();
+    //             const newData = {
+    //                 id: uniqueID,
+    //                 ...childData,
+    //             };
+    //             dataArr.push(newData);
+    //         });
+    //         setContacts(dataArr);
+    //     });
+    // }, [uid]);
 
     return (
         <>
@@ -78,6 +79,7 @@ const ChatContact = () => {
                             </div>
                         </Link>
                     ))}
+
                 </div>
             </div>
         </>
